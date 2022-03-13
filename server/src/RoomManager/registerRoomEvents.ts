@@ -16,4 +16,8 @@ export const registerRoomEvents = (
     player.socket.on("roomEnter", (roomId) => {
         roomManager.removeRoom(roomId);
     });
+
+    player.socket.on("roomLeave", (roomId) => {
+        roomManager.leaveRoom(roomId, player);
+    });
 };
