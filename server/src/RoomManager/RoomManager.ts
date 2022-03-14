@@ -5,9 +5,12 @@ import { wihtoutItem } from "../utils/utils";
 export class RoomManager {
     roomList: Room[] = [];
 
+    constructor(private onChange: () => void) {}
+
     addRoom = (name: string | Room) => {
         const room = isRoom(name) ? name : new Room(name);
         this.roomList.push(room);
+        this.onChange();
     };
 
     removeRoom = (roomId: number | Room) => {
@@ -16,6 +19,7 @@ export class RoomManager {
 
         room.users.forEach((p) => (p.room = null));
         this.roomList = wihtoutItem(this.roomList, room);
+        this.onChange();
     };
 
     enterRoom = (roomId: number | Room, user: User) => {
@@ -23,6 +27,8 @@ export class RoomManager {
         if (room === undefined) return;
 
         if (room.game !== null) {
+            user.agent.sendMsg("The room has already started.");
+            return;
         }
 
         if (user.room) {
@@ -33,6 +39,7 @@ export class RoomManager {
         room.teamA.push(user);
 
         user.room = room;
+        this.onChange();
     };
 
     leaveRoom = (user: User) => {
@@ -44,6 +51,7 @@ export class RoomManager {
         room.teamB = wihtoutItem(room.teamB, user);
 
         user.room = null;
+        this.onChange();
     };
 
     switchTeam = (user: User, team: "A" | "B") => {
@@ -60,6 +68,7 @@ export class RoomManager {
             user.room.teamA = wihtoutItem(user.room.teamA, user);
             user.room.teamB.push(user);
         }
+        this.onChange();
     };
 
     getRoom = (roomId: number | Room): Room | undefined => {
