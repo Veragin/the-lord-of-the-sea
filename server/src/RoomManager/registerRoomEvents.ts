@@ -1,23 +1,35 @@
-import { Player } from "PlayerManager/Player";
+import { GameManager } from "GameManager/GamerManager";
 import { RoomManager } from "./RoomManager";
+import { User } from "UserManager/User";
+import { logger } from "utils/logger";
 
-export const registerRoomEvents = (
-    player: Player,
-    roomManager: RoomManager
-) => {
-    player.socket.on("roomAdd", (name) => {
+export const registerRoomEvents = (user: User, roomManager: RoomManager, gameManager: GameManager) => {
+    user.socket.on("roomAdd", (name) => {
         roomManager.addRoom(name ?? "Noname room");
     });
 
-    player.socket.on("roomRemove", (roomId) => {
+    user.socket.on("roomRemove", (roomId: number) => {
         roomManager.removeRoom(roomId);
     });
 
-    player.socket.on("roomEnter", (roomId) => {
-        roomManager.removeRoom(roomId);
+    user.socket.on("roomEnter", (roomId: number) => {
+        roomManager.enterRoom(roomId, user);
     });
 
-    player.socket.on("roomLeave", (roomId) => {
-        roomManager.leaveRoom(roomId, player);
+    user.socket.on("roomLeave", () => {
+        roomManager.leaveRoom(user);
+    });
+
+    user.socket.on("roomSwitch", (team: "A" | "B") => {
+        roomManager.switchTeam(user, team);
+    });
+
+    user.socket.on("roomStart", () => {
+        if (user.room === null) {
+            logger.errorUser(user, `Started game, but is not in any room.`);
+            return;
+        }
+
+        gameManager.addGame(user.room);
     });
 };

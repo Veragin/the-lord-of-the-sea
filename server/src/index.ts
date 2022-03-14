@@ -1,10 +1,13 @@
 import { Server as IoServer } from "socket.io";
 import { Server } from "https";
+import { Service } from "Service";
 import express from "express";
 import { infoHandler } from "./handlers";
 
 const port = process.env.PORT || "8000";
 const ioPort = 8001;
+
+const service = new Service();
 
 //*********************************************************************************
 //*********** Server
@@ -39,30 +42,39 @@ server.listen(port, () => {
 });
 
 //*********************************************************************************
-//*********** Connection
+//*********** Websocket
 //*********************************************************************************
 
 const io = new IoServer(ioPort);
 
 io.sockets.on("connection", (socket) => {
-    socket.on("disconnect", function () {
-        delete SOCKET_LIST[socket.id];
-        Player.onDisconnect(socket);
-    });
-    socket.on("evalServer", function (data) {
-        if (!DEBUG) return;
+    socket.on("login", (authToken) => {
+        let player = service.userManager.getUserByAutToken(authToken);
 
-        var res = eval(data);
-        socket.emit("evalAnswer", res);
+        if (player === undefined) {
+            player = service.userManager.addUser(socket);
+            socket.emit("authToken", player.authToken);
+        } else {
+            if (player.isConnected) {
+                console.warn(`Tried to connect to already connected player ${player.id}.`);
+                return;
+            }
+            player.isConnected = true;
+            player.socket = socket;
+        }
+
+        service.registerEvents(player);
+    });
+
+    socket.on("logout", () => {
+        service.userManager.removeUser(socket.id);
+    });
+
+    socket.on("disconnect", () => {
+        const player = service.userManager.getUserBySocketId(socket.id);
+
+        if (player) {
+            player.isConnected = false;
+        }
     });
 });
-
-setInterval(function () {
-    var packs = Entity.getFrameUpdateData();
-    for (var i in SOCKET_LIST) {
-        var socket = SOCKET_LIST[i];
-        socket.emit("init", packs.initPack);
-        socket.emit("update", packs.updatePack);
-        socket.emit("remove", packs.removePack);
-    }
-}, 40);

@@ -1,11 +1,13 @@
-import { Player } from "PlayerManager/Player";
-import { generateId } from "../utils";
+import { Game } from "GameManager/Game";
+import { User } from "../UserManager/User";
+import { generateId } from "../utils/utils";
 
 export class Room {
     id: number = generateId();
-    players: Player[] = [];
-    teamA: Player[] = [];
-    teamB: Player[] = [];
+    users: User[] = [];
+    teamA: User[] = [];
+    teamB: User[] = [];
+    game: Game | null = null;
 
     constructor(public name: string) {}
 }

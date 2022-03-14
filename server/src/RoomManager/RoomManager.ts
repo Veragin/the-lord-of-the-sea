@@ -1,6 +1,6 @@
-import { Player } from "../PlayerManager/Player";
 import { Room } from "./Room";
-import { wihtoutItem } from "utils";
+import { User } from "../UserManager/User";
+import { wihtoutItem } from "../utils/utils";
 
 export class RoomManager {
     roomList: Room[] = [];
@@ -14,55 +14,56 @@ export class RoomManager {
         const room = this.getRoom(roomId);
         if (room === undefined) return;
 
-        room.players.forEach((p) => (p.room = null));
+        room.users.forEach((p) => (p.room = null));
         this.roomList = wihtoutItem(this.roomList, room);
     };
 
-    enterRoom = (roomId: number | Room, player: Player) => {
+    enterRoom = (roomId: number | Room, user: User) => {
         const room = this.getRoom(roomId);
         if (room === undefined) return;
 
-        if (player.room) {
-            this.leaveRoom(player.room, player);
+        if (room.game !== null) {
         }
 
-        room.players.push(player);
-        room.teamA.push(player);
+        if (user.room) {
+            this.leaveRoom(user);
+        }
 
-        player.room = room;
+        room.users.push(user);
+        room.teamA.push(user);
+
+        user.room = room;
     };
 
-    leaveRoom = (roomId: number | Room, player: Player) => {
-        const room = this.getRoom(roomId);
-        if (room === undefined) return;
+    leaveRoom = (user: User) => {
+        const room = user.room;
+        if (room === null) return;
 
-        room.players = wihtoutItem(room.players, player);
-        room.teamA = wihtoutItem(room.teamA, player);
-        room.teamB = wihtoutItem(room.teamB, player);
+        room.users = wihtoutItem(room.users, user);
+        room.teamA = wihtoutItem(room.teamA, user);
+        room.teamB = wihtoutItem(room.teamB, user);
 
-        player.room = null;
+        user.room = null;
     };
 
-    switchTeam = (player: Player, team: "A" | "B") => {
-        if (player.room === null) return;
+    switchTeam = (user: User, team: "A" | "B") => {
+        if (user.room === null) return;
 
         if (team === "A") {
-            if (player.room.teamA.includes(player)) return;
+            if (user.room.teamA.includes(user)) return;
 
-            player.room.teamB = wihtoutItem(player.room.teamB, player);
-            player.room.teamA.push(player);
+            user.room.teamB = wihtoutItem(user.room.teamB, user);
+            user.room.teamA.push(user);
         } else {
-            if (player.room.teamB.includes(player)) return;
+            if (user.room.teamB.includes(user)) return;
 
-            player.room.teamA = wihtoutItem(player.room.teamA, player);
-            player.room.teamB.push(player);
+            user.room.teamA = wihtoutItem(user.room.teamA, user);
+            user.room.teamB.push(user);
         }
     };
 
     getRoom = (roomId: number | Room): Room | undefined => {
-        return isRoom(roomId)
-            ? roomId
-            : this.roomList.find((r) => r.id === roomId);
+        return isRoom(roomId) ? roomId : this.roomList.find((r) => r.id === roomId);
     };
 }
 
