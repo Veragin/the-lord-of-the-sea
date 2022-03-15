@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-function App() {
+import { createUser } from "./User/createUser";
+
+const App = () => {
+    const user = useRef(createUser());
+
     return null;
-}
+};
 
 export default App;

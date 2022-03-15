@@ -26,8 +26,4 @@ export class RoomAgent {
     startRoom = () => {
         this.socketClient.socket.emit("roomStart");
     };
-
-    userChangeName = (name: string) => {
-        this.socketClient.socket.emit("userChangeName", name);
-    };
 }
