@@ -1,7 +1,7 @@
-import { GameManager } from 'GameManager/GamerManager';
+import { GameManager } from '../GameManager/GamerManager';
 import { RoomManager } from './RoomManager';
-import { User } from 'UserManager/User';
-import { logger } from 'utils/logger';
+import { User } from '../UserManager/User';
+import { logger } from '../utils/logger';
 
 export const registerRoomEvents = (user: User, roomManager: RoomManager, gameManager: GameManager) => {
     user.socket.on('roomAdd', (name) => {

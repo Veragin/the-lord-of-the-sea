@@ -1,18 +1,27 @@
 {
     "compilerOptions": {
         "module": "esnext",
-        "esModuleInterop": true,
-        "strict": true,
-        "allowSyntheticDefaultImports": true,
-        "target": "es5",
-        "noImplicitAny": true,
+        "target": "es2019",
+
         "moduleResolution": "node",
-        "allowJs": true,
-        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "incremental": true,
+
+        "outDir": "./dist",
+        "baseUrl": "./",
+
+        "strict": true,
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+
         "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": "src",
-        "lib": ["esnext"]
+        "inlineSources": true,
+
+        "skipLibCheck": true,
+        "allowJs": true
     },
-    "include": ["src/**/*.ts"]
+    "include": ["src/index.ts", "src/**/*.d.ts"]
 }

@@ -1,5 +1,5 @@
 import { Game } from './Game';
-import { Room } from 'RoomManager/Room';
+import { Room } from '../RoomManager/Room';
 
 export class GameManager {
     gameList: Game[] = [];

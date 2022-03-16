@@ -1,5 +1,5 @@
 import { Player } from '../Player/Player';
-import { Room } from 'RoomManager/Room';
+import { Room } from '../../RoomManager/Room';
 
 const ENGINE_INTERVAL_MS = 40;
 const SHIP_MAX_SPEED = 10;

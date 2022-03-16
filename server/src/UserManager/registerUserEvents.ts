@@ -1,7 +1,7 @@
-import { User } from 'UserManager/User';
+import { User } from '../UserManager/User';
 
 export const registerUserEvents = (user: User) => {
-    user.socket.on('userChangeName', (name) => {
+    user.socket.on('userChangeName', (name?: string) => {
         if (typeof name === 'string') {
             user.name = name;
         } else {

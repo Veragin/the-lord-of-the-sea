@@ -1,6 +1,6 @@
 import { Agent } from './Agent';
-import { Player } from 'GameManager/Player/Player';
-import { Room } from 'RoomManager/Room';
+import { Player } from '../GameManager/Player/Player';
+import { Room } from '../RoomManager/Room';
 import { Socket } from 'socket.io';
 import { generateId } from '../utils/utils';
 

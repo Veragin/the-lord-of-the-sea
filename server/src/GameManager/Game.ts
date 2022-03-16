@@ -1,4 +1,4 @@
-import { Room } from 'RoomManager/Room';
+import { Room } from '../RoomManager/Room';
 import { generateId } from '../utils/utils';
 
 export class Game {

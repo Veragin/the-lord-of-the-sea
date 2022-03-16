@@ -1,11 +1,11 @@
 import { Server as IoServer } from 'socket.io';
 import { Server } from 'https';
-import { Service } from 'Service';
+import { Service } from './Service';
 import express from 'express';
 import { infoHandler } from './handlers';
 
 const port = process.env.PORT || '8000';
-const ioPort = 8001;
+const wsPort = 8001;
 
 const service = new Service();
 
@@ -17,9 +17,9 @@ const app = express();
 
 // sends all frontend files
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/client/index.html');
+    res.sendFile(process.cwd() + '/client/index.html');
 });
-app.use('/client', express.static(__dirname + '/client'));
+app.use('/client', express.static(process.cwd() + '/client'));
 
 // send some basic info
 app.get('/info', infoHandler);
@@ -45,9 +45,12 @@ server.listen(port, () => {
 //*********** Websocket
 //*********************************************************************************
 
-const io = new IoServer(ioPort);
+const io = new IoServer(wsPort);
+console.log(`Websocket is listening on ${wsPort}`);
 
 io.sockets.on('connection', (socket) => {
+    console.log('New connection ' + socket.id);
+
     socket.on('login', (authToken?: string) => {
         let user = service.userManager.getUserByAutToken(authToken);
 
@@ -71,6 +74,7 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
+        console.log('Disconnected ' + socket.id);
         const player = service.userManager.getUserBySocketId(socket.id);
 
         if (player) {
