@@ -48,22 +48,22 @@ server.listen(port, () => {
 const io = new IoServer(ioPort);
 
 io.sockets.on("connection", (socket) => {
-    socket.on("login", (authToken) => {
-        let player = service.userManager.getUserByAutToken(authToken);
+    socket.on("login", (authToken?: string) => {
+        let user = service.userManager.getUserByAutToken(authToken);
 
-        if (player === undefined) {
-            player = service.userManager.addUser(socket);
-            socket.emit("authToken", player.authToken);
+        if (user === undefined) {
+            user = service.userManager.addUser(socket);
+            socket.emit("authToken", user.authToken);
         } else {
-            if (player.isConnected) {
-                console.warn(`Tried to connect to already connected player ${player.id}.`);
+            if (user.isConnected) {
+                console.warn(`Tried to connect to already connected player ${user.id}.`);
                 return;
             }
-            player.isConnected = true;
-            player.socket = socket;
+            user.isConnected = true;
+            user.socket = socket;
         }
 
-        service.registerEvents(player);
+        service.registerEvents(user);
     });
 
     socket.on("logout", () => {

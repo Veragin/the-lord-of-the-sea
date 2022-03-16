@@ -33,8 +33,8 @@ export class Engine {
             ship.speedX += Math.sin(ship.front) * ship.speed;
             ship.speedY += Math.cos(ship.front) * ship.speed;
 
-            if (Math.abs(ship.speedX) > SHIP_MAX_SPEED) ship.speedX = SHIP_MAX_SPEED;
-            if (Math.abs(ship.speedY) > SHIP_MAX_SPEED) ship.speedY = SHIP_MAX_SPEED;
+            if (Math.abs(ship.speedX) > SHIP_MAX_SPEED) ship.speedX = Math.sign(ship.speedX) * SHIP_MAX_SPEED;
+            if (Math.abs(ship.speedY) > SHIP_MAX_SPEED) ship.speedY = Math.sign(ship.speedY) * SHIP_MAX_SPEED;
         }
 
         if (control.back) {
@@ -44,8 +44,20 @@ export class Engine {
             const newX = ship.speedX - Math.sin(ship.front) * ship.speed;
             const newY = ship.speedY - Math.cos(ship.front) * ship.speed;
 
-            if (Math.abs(prevX) < Math.abs(newX)) ship.speedX = newX;
-            if (Math.abs(prevY) < Math.abs(newY)) ship.speedY = newY;
+            if (Math.abs(prevX) < Math.abs(newX)) {
+                ship.speedX = newX;
+            } else {
+                ship.speedX = 0;
+            }
+            if (Math.abs(prevY) < Math.abs(newY)) {
+                ship.speedY = newY;
+            } else {
+                ship.speedY = 0;
+            }
         }
+    };
+
+    destructor = () => {
+        clearInterval(this.interval);
     };
 }

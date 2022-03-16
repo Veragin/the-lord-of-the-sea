@@ -1,3 +1,4 @@
+import { Agent } from "./Agent";
 import { Socket } from "socket.io";
 import { User } from "./User";
 
@@ -5,7 +6,8 @@ export class UserManager {
     userList: User[] = [];
 
     addUser = (socket: Socket) => {
-        const user = new User(socket);
+        const agent = new Agent(socket);
+        const user = new User(socket, agent);
         this.userList.push(user);
         return user;
     };
@@ -15,7 +17,7 @@ export class UserManager {
         this.userList = this.userList.filter((u) => u.socket.id !== socketId);
     };
 
-    getUserByAutToken = (authToken: string) => {
+    getUserByAutToken = (authToken?: string) => {
         return this.userList.find((u) => u.authToken === authToken);
     };
 
