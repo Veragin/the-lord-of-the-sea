@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react';
 
-import { createUser } from "./User/createUser";
+import { createUser } from './User/createUser';
 
 const App = () => {
     const user = useRef(createUser());

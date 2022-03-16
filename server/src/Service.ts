@@ -1,9 +1,9 @@
-import { GameManager } from "GameManager/GamerManager";
-import { RoomManager } from "RoomManager/RoomManager";
-import { User } from "UserManager/User";
-import { UserManager } from "UserManager/UserManager";
-import { registerRoomEvents } from "RoomManager/registerRoomEvents";
-import { registerUserEvents } from "UserManager/registerUserEvents";
+import { GameManager } from 'GameManager/GamerManager';
+import { RoomManager } from 'RoomManager/RoomManager';
+import { User } from 'UserManager/User';
+import { UserManager } from 'UserManager/UserManager';
+import { registerRoomEvents } from 'RoomManager/registerRoomEvents';
+import { registerUserEvents } from 'UserManager/registerUserEvents';
 
 export class Service {
     userManager = new UserManager();

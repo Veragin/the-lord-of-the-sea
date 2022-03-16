@@ -1,10 +1,10 @@
-import { Alert, Column, Title } from "../StyledComponents";
-import React, { useState } from "react";
+import { Alert, Column, Title } from '../StyledComponents';
+import React, { useState } from 'react';
 
-import { EnterName } from "./EnterName";
-import { User } from "../../User/User";
-import { spacingCss } from "../css";
-import styled from "styled-components";
+import { EnterName } from './EnterName';
+import { User } from '../../User/User';
+import { spacingCss } from '../css';
+import styled from 'styled-components';
 
 type Props = {
     user: User;
@@ -12,11 +12,11 @@ type Props = {
 
 export const Room = ({ user }: Props) => {
     const [openNameEdit, setOpenNameEdit] = useState(true);
-    const [alert, setAlert] = useState("");
+    const [alert, setAlert] = useState('');
 
     const onNameChange = (name: string) => {
-        if (name === "") {
-            setAlert("Your name input is empty.");
+        if (name === '') {
+            setAlert('Your name input is empty.');
             return;
         }
 

@@ -1,9 +1,9 @@
-import { GameAgent } from "../Agent/GameAgent";
-import { RoomAgent } from "../Agent/RoomAgent";
-import { UserAgent } from "../Agent/UserAgent";
+import { GameAgent } from '../Agent/GameAgent';
+import { RoomAgent } from '../Agent/RoomAgent';
+import { UserAgent } from '../Agent/UserAgent';
 
 export class User {
-    name = "";
+    name = '';
 
     constructor(public gameAgent: GameAgent, public userAgent: UserAgent, public roomAgent: RoomAgent) {}
 }

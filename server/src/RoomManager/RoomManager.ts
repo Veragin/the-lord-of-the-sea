@@ -1,6 +1,6 @@
-import { Room } from "./Room";
-import { User } from "../UserManager/User";
-import { wihtoutItem } from "../utils/utils";
+import { Room } from './Room';
+import { User } from '../UserManager/User';
+import { wihtoutItem } from '../utils/utils';
 
 export class RoomManager {
     roomList: Room[] = [];
@@ -27,7 +27,7 @@ export class RoomManager {
         if (room === undefined) return;
 
         if (room.game !== null) {
-            user.agent.sendMsg("The room has already started.");
+            user.agent.sendMsg('The room has already started.');
             return;
         }
 
@@ -54,10 +54,10 @@ export class RoomManager {
         this.onChange();
     };
 
-    switchTeam = (user: User, team: "A" | "B") => {
+    switchTeam = (user: User, team: 'A' | 'B') => {
         if (user.room === null) return;
 
-        if (team === "A") {
+        if (team === 'A') {
             if (user.room.teamA.includes(user)) return;
 
             user.room.teamB = wihtoutItem(user.room.teamB, user);

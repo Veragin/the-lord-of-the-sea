@@ -1,5 +1,5 @@
-import { spacingCss } from "./css";
-import styled from "styled-components";
+import { spacingCss } from './css';
+import styled from 'styled-components';
 
 export const Column = styled.div`
     display: flex;

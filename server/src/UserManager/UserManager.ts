@@ -1,6 +1,6 @@
-import { Agent } from "./Agent";
-import { Socket } from "socket.io";
-import { User } from "./User";
+import { Agent } from './Agent';
+import { Socket } from 'socket.io';
+import { User } from './User';
 
 export class UserManager {
     userList: User[] = [];

@@ -1,8 +1,8 @@
-import { GameAgent } from "../Agent/GameAgent";
-import { RoomAgent } from "../Agent/RoomAgent";
-import { SocketClient } from "../Agent/SocketClient";
-import { User } from "./User";
-import { UserAgent } from "../Agent/UserAgent";
+import { GameAgent } from '../Agent/GameAgent';
+import { RoomAgent } from '../Agent/RoomAgent';
+import { SocketClient } from '../Agent/SocketClient';
+import { User } from './User';
+import { UserAgent } from '../Agent/UserAgent';
 
 export const createUser = () => {
     const socketClient = new SocketClient();

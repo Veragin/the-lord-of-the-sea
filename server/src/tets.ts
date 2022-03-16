@@ -2,18 +2,18 @@ const a = 5 + 3;
 
 const ll = a;
 
-let b = "aa";
+let b = 'aa';
 
 const c = true;
 
 const e = {
     id: 5,
-    name: "asdasd",
+    name: 'asdasd',
 };
 
 const car: TCar = {
-    name: "ford",
-    color: "blue",
+    name: 'ford',
+    color: 'blue',
 };
 
 const ee = e;
@@ -33,7 +33,7 @@ const runCar = (car: TCar) => {
 
 class MyError extends Error {
     constructor() {
-        super("muj error");
+        super('muj error');
     }
 }
 
@@ -51,15 +51,15 @@ class Driver {
     private age: number = 25;
 
     constructor(public name: string) {
-        this.eye = "sdasda";
+        this.eye = 'sdasda';
     }
 }
 
 type TCar = {
     name: string;
-    color: "red" | "blue";
+    color: 'red' | 'blue';
 };
 
-export const driver = new Driver("Lojza");
+export const driver = new Driver('Lojza');
 
 const ass = setTimeout(() => {}, 10_000);

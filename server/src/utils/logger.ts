@@ -1,4 +1,4 @@
-import { User } from "../UserManager/User";
+import { User } from '../UserManager/User';
 
 class Logger {
     logUser = (user: User, msg: string) => {

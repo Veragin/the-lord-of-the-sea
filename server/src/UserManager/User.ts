@@ -1,14 +1,14 @@
-import { Agent } from "./Agent";
-import { Player } from "GameManager/Player/Player";
-import { Room } from "RoomManager/Room";
-import { Socket } from "socket.io";
-import { generateId } from "../utils/utils";
+import { Agent } from './Agent';
+import { Player } from 'GameManager/Player/Player';
+import { Room } from 'RoomManager/Room';
+import { Socket } from 'socket.io';
+import { generateId } from '../utils/utils';
 
 export class User {
     id: number = generateId();
     name: string = `User ${this.id}`;
 
-    authToken = "sss";
+    authToken = 'sss';
     isConnected = true;
 
     room: Room | null = null;
