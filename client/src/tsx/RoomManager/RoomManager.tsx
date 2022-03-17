@@ -1,16 +1,16 @@
 import { Alert, Column, Title } from '../StyledComponents';
 import React, { useState } from 'react';
+import { colorsACss, colorsCss, spacingCss } from '../css';
 
 import { EnterName } from './EnterName';
 import { User } from '../../User/User';
-import { spacingCss } from '../css';
 import styled from 'styled-components';
 
 type Props = {
     user: User;
 };
 
-export const Room = ({ user }: Props) => {
+export const RoomManager = ({ user }: Props) => {
     const [openNameEdit, setOpenNameEdit] = useState(true);
     const [alert, setAlert] = useState('');
 
@@ -21,6 +21,7 @@ export const Room = ({ user }: Props) => {
         }
 
         user.name = name;
+        user.userAgent.userChangeName(name);
         setOpenNameEdit(false);
     };
 
@@ -36,8 +37,10 @@ export const Room = ({ user }: Props) => {
 };
 
 const StyledCont = styled(Column)`
-    row-gap: ${spacingCss(3)};
+    row-gap: ${spacingCss(10)};
     flex-grow: 1;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledTitle = styled.span`
@@ -46,8 +49,11 @@ const StyledTitle = styled.span`
 `;
 
 const StyledWindow = styled(Column)`
-    border: rgba(255, 255, 255, 0.6) solid 4px;
-    background-color: rgba(255, 255, 255, 0.3);
+    border: ${colorsCss.secondary.dark} solid 4px;
+    background-color: ${colorsACss('secondary', 'light', 0.3)};
     padding: ${spacingCss(3)};
-    min-width: 400px;
+    min-width: 500px;
+    max-width: 80%;
+    max-height: 600px;
+    row-gap: ${spacingCss(2)};
 `;

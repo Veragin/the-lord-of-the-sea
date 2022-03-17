@@ -22,4 +22,5 @@ export const EnterName = ({ onSubmit }: Props) => {
 
 const StyledCont = styled(Column)`
     row-gap: ${spacingCss(2)};
+    align-items: center;
 `;
