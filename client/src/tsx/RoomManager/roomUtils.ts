@@ -1,6 +1,6 @@
-export const getTeamUserNames = (ids: number[], players: TName[]) => {
+export const getTeamUserNames = (ids: number[], players: TName[]): string[] => {
     const names = ids.map((id) => players.find((p) => p.id === id)?.name);
-    return names.filter((name) => !!name);
+    return names.filter((name) => !!name) as string[];
 };
 
 export const getUsersName = (r: TRoom, players: TName[]) => {
