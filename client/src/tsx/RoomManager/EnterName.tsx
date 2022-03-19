@@ -1,21 +1,44 @@
-import { Button, Column, Input, Title } from '../StyledComponents';
+import { Column, HeadTitle, Input } from '../StyledComponents';
 
+import { Button } from '../Components/Buttons';
 import { spacingCss } from '../css';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useUser } from '../Contexts/UserContext';
 
 type Props = {
-    onSubmit: (name: string) => void;
+    type: 'login' | 'nameChange';
+    onClose: () => void;
+    setAlert: (msg: string) => void;
 };
 
-export const EnterName = ({ onSubmit }: Props) => {
-    const [name, setName] = useState('');
+export const EnterName = ({ type, onClose, setAlert }: Props) => {
+    const user = useUser();
+    const [name, setName] = useState(user.name);
+    const isLogin = type === 'login';
+
+    const onNameChange = async (name: string) => {
+        if (name === '') {
+            setAlert('Your name input is empty.');
+            return;
+        }
+
+        if (isLogin) {
+            await user.userAgent.login(name);
+        } else {
+            user.userAgent.userChangeName(name);
+        }
+
+        onClose();
+    };
 
     return (
         <StyledCont>
-            <Title>Please enter your name:</Title>
+            <HeadTitle>Please enter your name:</HeadTitle>
             <Input value={name} onChange={(e) => setName(e.target.value)} />
-            <Button onClick={() => onSubmit(name)}>Change</Button>
+            <Button onClick={() => onNameChange(name)}>
+                {isLogin ? 'Login' : 'Change'}
+            </Button>
         </StyledCont>
     );
 };

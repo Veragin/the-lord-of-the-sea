@@ -45,18 +45,22 @@ server.listen(port, () => {
 //*********** Websocket
 //*********************************************************************************
 
-const io = new IoServer(wsPort);
+const io = new IoServer(wsPort, {
+    cors: {
+        origin: 'http://localhost:3000',
+    },
+});
 console.log(`Websocket is listening on ${wsPort}`);
 
 io.sockets.on('connection', (socket) => {
     console.log('New connection ' + socket.id);
 
-    socket.on('login', (authToken?: string) => {
+    socket.on('login', (name: string, authToken?: string) => {
+        console.log('ws: login', socket.id, name);
         let user = service.userManager.getUserByAutToken(authToken);
 
         if (user === undefined) {
-            user = service.userManager.addUser(socket);
-            socket.emit('authToken', user.authToken);
+            user = service.userManager.addUser(socket, name);
         } else {
             if (user.isConnected) {
                 console.warn(`Tried to connect to already connected player ${user.id}.`);
@@ -67,14 +71,17 @@ io.sockets.on('connection', (socket) => {
         }
 
         service.registerEvents(user);
+        socket.emit('init', user.id, user.authToken);
+        service.sendsRoomChange(user);
     });
 
     socket.on('logout', () => {
+        console.log('ws: logout', socket.id);
         service.userManager.removeUser(socket.id);
     });
 
     socket.on('disconnect', () => {
-        console.log('Disconnected ' + socket.id);
+        console.log('ws: disconnected ', socket.id);
         const player = service.userManager.getUserBySocketId(socket.id);
 
         if (player) {

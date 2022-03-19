@@ -9,14 +9,14 @@ export const colorsCss = {
         dark: '#76520e',
         darker: '#805b10',
         main: '#926c15',
-        lignter: '#a47e1b',
+        lighter: '#a47e1b',
         light: '#b69121',
     },
     secondary: {
         dark: '#c9a227',
         darker: '#dbb42c',
         main: '#edc531',
-        lignter: '#fad643',
+        lighter: '#fad643',
         light: '#ffe169',
     },
 } as const;
@@ -26,6 +26,9 @@ export type TColors = typeof colorsCss;
 export type TVariant = keyof typeof colorsCss;
 
 export const colorsACss = (variant: TVariant, color: TColor, a: number) => hexToRgbA(colorsCss[variant][color], a);
+
+export const getColor = (color?: 'primary' | 'secondary') =>
+    color === 'secondary' ? colorsCss.secondary : colorsCss.primary;
 
 const hexToRgbA = (hex: string, a: number) => {
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {

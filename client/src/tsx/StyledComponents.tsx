@@ -12,9 +12,19 @@ export const Row = styled.div`
     flex-direction: row;
 `;
 
-export const Title = styled.span`
+export const HeadTitle = styled.span`
     font-size: 32px;
     color: ${colorsCss.primary.dark};
+`;
+
+export const Title = styled.span`
+    font-size: 14px;
+    color: ${colorsCss.primary.dark};
+`;
+
+export const Text = styled.span`
+    font-size: 12px;
+    color: white;
 `;
 
 export const Input = styled.input`
@@ -23,7 +33,7 @@ export const Input = styled.input`
     border: 2px solid ${colorsCss.secondary.dark};
     background-color: ${colorsCss.secondary.dark};
     border-radius: ${borderRadiusCss(1)};
-    color: white;
+    color: ${colorsCss.primary.dark};
     font-size: 14px;
 
     &:hover {
@@ -33,32 +43,6 @@ export const Input = styled.input`
 
     &:focus {
         background-color: ${colorsCss.secondary.darker};
-        border: 2px solid ${colorsCss.primary.darker};
+        border: 2px solid ${colorsCss.primary.dark};
     }
 `;
-
-export const Button = styled.button<{ $color?: 'primary' | 'secondary' }>`
-    border: 0;
-    padding: ${spacingCss(2)} ${spacingCss(3)};
-    background-color: ${({ $color }) => getColor($color).main};
-    cursor: pointer;
-    border-radius: ${borderRadiusCss(1)};
-    color: white;
-    font-size: 16px;
-    width: min-content;
-
-    &:hover {
-        background-color: ${({ $color }) => getColor($color).light};
-    }
-`;
-
-export const Alert = styled.div`
-    width: 100%;
-    box-sizing: border-box;
-    padding: ${spacingCss(0.5)} ${spacingCss(1)};
-    border: 2px solid red;
-    background-color: pink;
-`;
-
-const getColor = (color?: 'primary' | 'secondary') =>
-    color === 'secondary' ? colorsCss.secondary : colorsCss.primary;

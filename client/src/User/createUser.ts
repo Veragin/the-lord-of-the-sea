@@ -1,3 +1,4 @@
+import { EventRegister } from '../Agent/EventRegister';
 import { GameAgent } from '../Agent/GameAgent';
 import { RoomAgent } from '../Agent/RoomAgent';
 import { SocketClient } from '../Agent/SocketClient';
@@ -9,6 +10,8 @@ export const createUser = () => {
     const gameAgent = new GameAgent(socketClient);
     const userAgent = new UserAgent(socketClient);
     const roomAgent = new RoomAgent(socketClient);
+    const eventRegister = new EventRegister(socketClient);
+    console.log('create user');
 
-    return new User(gameAgent, userAgent, roomAgent);
+    return new User(socketClient, gameAgent, userAgent, roomAgent, eventRegister);
 };

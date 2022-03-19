@@ -1,39 +1,70 @@
-import { Alert, Column, Title } from '../StyledComponents';
-import React, { useState } from 'react';
-import { colorsACss, colorsCss, spacingCss } from '../css';
+import { borderRadiusCss, colorsACss, spacingCss } from '../css';
+import { useEffect, useState } from 'react';
 
+import { Alert } from '../Components/Alert';
+import { Column } from '../StyledComponents';
 import { EnterName } from './EnterName';
+import { RoomList } from './RoomList';
 import { User } from '../../User/User';
 import styled from 'styled-components';
+import { useUser } from '../Contexts/UserContext';
 
-type Props = {
-    user: User;
-};
+type TEnterNameType = null | 'login' | 'nameChange';
 
-export const RoomManager = ({ user }: Props) => {
-    const [openNameEdit, setOpenNameEdit] = useState(true);
+export const RoomManager = () => {
+    const user = useUser();
+    const [data, setData] = useState<TRoomData>({ users: [], rooms: [] });
+
+    const [openNameEdit, setOpenNameEdit] = useState<TEnterNameType>('login');
     const [alert, setAlert] = useState('');
 
-    const onNameChange = (name: string) => {
-        if (name === '') {
-            setAlert('Your name input is empty.');
-            return;
-        }
+    useEffect(() => {
+        console.log('Room: Register room events.');
+        const roomId = user.eventRegister.subscribe({
+            type: 'roomData',
+            do: (d) => {
+                setUserFromData(user, d);
+                setData(d);
+            },
+        });
 
-        user.name = name;
-        user.userAgent.userChangeName(name);
-        setOpenNameEdit(false);
-    };
+        return () => user.eventRegister.unsubscribe('roomData', roomId);
+    }, [user]);
 
     return (
         <StyledCont>
             <StyledTitle>The Lord of the Sea</StyledTitle>
             <StyledWindow>
-                {alert && <Alert>{alert}</Alert>}
-                {openNameEdit ? <EnterName onSubmit={onNameChange} /> : null}
+                <Alert msg={alert} onClose={() => setAlert('')} />
+                {openNameEdit ? (
+                    <EnterName
+                        type={openNameEdit}
+                        onClose={() => {
+                            setOpenNameEdit(null);
+                        }}
+                        setAlert={setAlert}
+                    />
+                ) : user.room === null ? (
+                    <RoomList
+                        data={data}
+                        setAlert={setAlert}
+                        onEditName={() => setOpenNameEdit('nameChange')}
+                    />
+                ) : null}
             </StyledWindow>
         </StyledCont>
     );
+};
+
+const setUserFromData = (user: User, data: TRoomData) => {
+    const id = user.id();
+    const userData = data.users.find((u) => u.id === id);
+    const room = data.rooms.find(
+        (r) => r.teamA.includes(id) || r.teamB.includes(id)
+    );
+
+    user.room = room ?? null;
+    user.name = userData?.name ?? 'Error name';
 };
 
 const StyledCont = styled(Column)`
@@ -49,11 +80,11 @@ const StyledTitle = styled.span`
 `;
 
 const StyledWindow = styled(Column)`
-    border: ${colorsCss.secondary.dark} solid 4px;
     background-color: ${colorsACss('secondary', 'light', 0.3)};
     padding: ${spacingCss(3)};
     min-width: 500px;
     max-width: 80%;
     max-height: 600px;
     row-gap: ${spacingCss(2)};
+    border-radius: ${borderRadiusCss(2)};
 `;
