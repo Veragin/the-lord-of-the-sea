@@ -11,11 +11,10 @@ import { useUser } from '../Contexts/UserContext';
 type Props = {
     data: TRoomData;
     room: TRoom;
-    onStart: () => void;
     onEditName: () => void;
 };
 
-export const Room = ({ data, room, onStart, onEditName }: Props) => {
+export const Room = ({ data, room, onEditName }: Props) => {
     const user = useUser();
 
     const onTeamSwitch = (team: 'A' | 'B') => {
@@ -60,7 +59,10 @@ export const Room = ({ data, room, onStart, onEditName }: Props) => {
                 >
                     Back
                 </Button>
-                <Button onClick={onStart} $small={true}>
+                <Button
+                    onClick={() => user.roomAgent.startRoom()}
+                    $small={true}
+                >
                     Start
                 </Button>
             </StyledSpaceRow>

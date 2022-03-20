@@ -1,5 +1,5 @@
 import { User } from '../UserManager/User';
-import { logger } from 'utils/logger';
+import { logger } from '../utils/logger';
 
 export const registerGameEvents = (user: User) => {
     const player = user.player;

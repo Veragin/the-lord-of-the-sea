@@ -56,7 +56,6 @@ export const RoomManager = () => {
                         data={data}
                         room={user.room}
                         onEditName={() => setOpenNameEdit('nameChange')}
-                        onStart={() => true}
                     />
                 )}
             </StyledWindow>
