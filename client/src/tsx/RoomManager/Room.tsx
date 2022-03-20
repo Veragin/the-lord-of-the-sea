@@ -1,21 +1,21 @@
 import { Button, HoverButton } from '../Components/Buttons';
 import { Column, HeadTitle, Row, Text, Title } from '../StyledComponents';
+import { borderRadiusCss, colorsACss, spacingCss } from '../css';
 
 import { ReactComponent as EditIcon } from '../../Assets/icons/edit.svg';
+import { User } from '../../User/User';
 import { getTeamUserNames } from './roomUtils';
-import { spacingCss } from '../css';
 import styled from 'styled-components';
 import { useUser } from '../Contexts/UserContext';
 
 type Props = {
     data: TRoomData;
     room: TRoom;
-    onBack: () => void;
     onStart: () => void;
     onEditName: () => void;
 };
 
-export const Room = ({ data, room, onBack, onStart, onEditName }: Props) => {
+export const Room = ({ data, room, onStart, onEditName }: Props) => {
     const user = useUser();
 
     const onTeamSwitch = (team: 'A' | 'B') => {
@@ -24,6 +24,9 @@ export const Room = ({ data, room, onBack, onStart, onEditName }: Props) => {
 
     const usersA = getTeamUserNames(room.teamA, data.users);
     const usersB = getTeamUserNames(room.teamB, data.users);
+
+    const userListA = generateUserList(usersA, user);
+    const userListB = generateUserList(usersB, user);
 
     return (
         <StyledCont>
@@ -34,30 +37,27 @@ export const Room = ({ data, room, onBack, onStart, onEditName }: Props) => {
                     <EditIcon />
                 </HoverButton>
             </StyledSpaceRow>
-            <StyledTeamNames>
-                <Title>Team A</Title>
-                <Title>Team B</Title>
-            </StyledTeamNames>
-            <StyledSpaceRow>
-                <StyledList>
-                    {usersA.map((name: string, key: number) => (
-                        <Text key={key}>{name}</Text>
-                    ))}
+            <StyledListsHolder>
+                <StyledTeam>
+                    <StyledTitle>Team A</StyledTitle>
+                    <StyledList>{userListA}</StyledList>
                     <Button onClick={() => onTeamSwitch('A')} $small={true}>
-                        Change
+                        Switch
                     </Button>
-                </StyledList>
-                <StyledList>
-                    {usersB.map((name: string, key: number) => (
-                        <Text key={key}>{name}</Text>
-                    ))}
+                </StyledTeam>
+                <StyledTeam>
+                    <StyledTitle>Team B</StyledTitle>
+                    <StyledList>{userListB}</StyledList>
                     <Button onClick={() => onTeamSwitch('B')} $small={true}>
-                        Change
+                        Switch
                     </Button>
-                </StyledList>
-            </StyledSpaceRow>
+                </StyledTeam>
+            </StyledListsHolder>
             <StyledSpaceRow>
-                <Button onClick={onBack} $small={true}>
+                <Button
+                    onClick={() => user.roomAgent.leaveRoom()}
+                    $small={true}
+                >
                     Back
                 </Button>
                 <Button onClick={onStart} $small={true}>
@@ -68,6 +68,14 @@ export const Room = ({ data, room, onBack, onStart, onEditName }: Props) => {
     );
 };
 
+const generateUserList = (names: string[], user: User) => {
+    return names.map((name: string, key: number) => (
+        <Text key={key} $highlight={name === user.name}>
+            {name}
+        </Text>
+    ));
+};
+
 const StyledCont = styled(Column)`
     row-gap: ${spacingCss(2)};
     flex-grow: 1;
@@ -75,10 +83,20 @@ const StyledCont = styled(Column)`
     height: 600px;
 `;
 
+const StyledTeam = styled(Column)`
+    row-gap: ${spacingCss(2)};
+    flex-grow: 1;
+    height: max-content;
+    align-items: center;
+    background-color: ${colorsACss('primary', 'lighter', 0.6)};
+    padding: ${spacingCss(2)};
+    border-radius: ${borderRadiusCss(1)};
+    height: 100%;
+    box-sizing: border-box;
+`;
+
 const StyledList = styled(Column)`
     row-gap: ${spacingCss(1)};
-    width: 50%;
-    align-items: center;
 `;
 
 const StyledSpaceRow = styled(Row)`
@@ -87,8 +105,12 @@ const StyledSpaceRow = styled(Row)`
     align-items: center;
 `;
 
-const StyledTeamNames = styled(Row)`
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
+const StyledListsHolder = styled(StyledSpaceRow)`
+    flex-grow: 1;
+    column-gap: ${spacingCss(2)};
+`;
+
+const StyledTitle = styled(Title)`
+    font-size: 16px;
+    font-weight: 600;
 `;

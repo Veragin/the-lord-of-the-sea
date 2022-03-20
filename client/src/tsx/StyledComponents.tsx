@@ -22,9 +22,9 @@ export const Title = styled.span`
     color: ${colorsCss.primary.dark};
 `;
 
-export const Text = styled.span`
+export const Text = styled.span<{ $highlight?: boolean }>`
     font-size: 12px;
-    color: white;
+    color: ${({ $highlight }) => ($highlight ? 'red' : 'white')};
 `;
 
 export const Input = styled.input`

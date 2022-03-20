@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Alert } from '../Components/Alert';
 import { Column } from '../StyledComponents';
 import { EnterName } from './EnterName';
+import { Room } from './Room';
 import { RoomList } from './RoomList';
 import { User } from '../../User/User';
 import styled from 'styled-components';
@@ -50,7 +51,14 @@ export const RoomManager = () => {
                         setAlert={setAlert}
                         onEditName={() => setOpenNameEdit('nameChange')}
                     />
-                ) : null}
+                ) : (
+                    <Room
+                        data={data}
+                        room={user.room}
+                        onEditName={() => setOpenNameEdit('nameChange')}
+                        onStart={() => true}
+                    />
+                )}
             </StyledWindow>
         </StyledCont>
     );
