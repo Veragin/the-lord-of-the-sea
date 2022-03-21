@@ -1,7 +1,9 @@
 import { GameManager } from './GameManager/GamerManager';
+import { Room } from './RoomManager/Room';
 import { RoomManager } from './RoomManager/RoomManager';
 import { User } from './UserManager/User';
 import { UserManager } from './UserManager/UserManager';
+import { gamePrepare } from './GameManager/func/gamePrepare';
 import { registerRoomEvents } from './RoomManager/registerRoomEvents';
 import { registerUserEvents } from './UserManager/registerUserEvents';
 
@@ -12,20 +14,14 @@ export class Service {
 
     registerEvents = (user: User) => {
         registerUserEvents(user, () => this.sendsRoomChange());
-        registerRoomEvents(user, this.roomManager, this.gameManager);
+        registerRoomEvents(user, this.roomManager, this.startGame);
     };
 
     sendsRoomChange = (user?: User) => {
-        const usersNotInGame = this.userManager.userList.filter((u) => !u.player);
+        const usersNotInGame = this.userManager.userList.filter((u) => u.state === 'inRoom');
         const data: TRoomData = {
             users: this.userManager.userList.map((u) => ({ id: u.id, name: u.name })),
-            rooms: this.roomManager.roomList.map((r) => ({
-                id: r.id,
-                name: r.name,
-                inGame: !!r.game,
-                teamA: r.teamA.map((p) => p.id),
-                teamB: r.teamB.map((p) => p.id),
-            })),
+            rooms: this.roomManager.roomList.map((r) => r.export()),
         };
 
         if (user) {
@@ -33,5 +29,9 @@ export class Service {
         } else {
             usersNotInGame.forEach((u) => u.agent.sendRoomData(data));
         }
+    };
+
+    startGame = (room: Room) => {
+        const game = gamePrepare(room);
     };
 }

@@ -1,12 +1,11 @@
-import { User } from '../UserManager/User';
-import { logger } from '../utils/logger';
+import { Player } from '../Player/Player';
 
-export const registerGameEvents = (user: User) => {
-    const player = user.player;
-    if (player === null) {
-        logger.errorUser(user, 'Tried to registerGameEvents without player.');
-        return;
-    }
+export const registerGameEvents = (players: Player[]) => {
+    players.forEach((p) => registerGameEventsForPlayer(p));
+};
+
+export const registerGameEventsForPlayer = (player: Player) => {
+    const user = player.user;
 
     user.socket.on('gameLeft', (on: boolean) => {
         player.control.left = on;

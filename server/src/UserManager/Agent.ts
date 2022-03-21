@@ -14,4 +14,8 @@ export class Agent {
     sendMsg = (msg: string) => {
         this.socket.emit('msg', msg);
     };
+
+    gameInit = (room: TRoom) => {
+        this.socket.emit('gameInit', room);
+    };
 }

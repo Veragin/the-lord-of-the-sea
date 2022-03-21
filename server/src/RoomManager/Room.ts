@@ -10,4 +10,12 @@ export class Room {
     game: Game | null = null;
 
     constructor(public name: string) {}
+
+    export = (): TRoom => ({
+        id: this.id,
+        name: this.name,
+        inGame: !!this.game,
+        teamA: this.teamA.map((p) => p.id),
+        teamB: this.teamB.map((p) => p.id),
+    });
 }

@@ -1,4 +1,6 @@
 import { Ship } from './Ship';
+import { Team } from '../Team';
+import { User } from 'src/UserManager/User';
 
 export class Player {
     control = {
@@ -14,5 +16,5 @@ export class Player {
 
     ship = new Ship();
 
-    constructor() {}
+    constructor(public user: User, public team: Team) {}
 }

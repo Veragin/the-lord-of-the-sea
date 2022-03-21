@@ -1,9 +1,10 @@
 import { GameManager } from '../GameManager/GamerManager';
+import { Room } from './Room';
 import { RoomManager } from './RoomManager';
 import { User } from '../UserManager/User';
 import { logger } from '../utils/logger';
 
-export const registerRoomEvents = (user: User, roomManager: RoomManager, gameManager: GameManager) => {
+export const registerRoomEvents = (user: User, roomManager: RoomManager, startGame: (room: Room) => void) => {
     user.socket.on('roomAdd', (name) => {
         roomManager.addRoom(name ?? 'Noname room');
     });
@@ -20,7 +21,7 @@ export const registerRoomEvents = (user: User, roomManager: RoomManager, gameMan
         roomManager.leaveRoom(user);
     });
 
-    user.socket.on('roomSwitch', (team: 'A' | 'B') => {
+    user.socket.on('roomSwitch', (team: TUserTeam) => {
         roomManager.switchTeam(user, team);
     });
 
@@ -30,6 +31,6 @@ export const registerRoomEvents = (user: User, roomManager: RoomManager, gameMan
             return;
         }
 
-        gameManager.addGame(user.room);
+        startGame(user.room);
     });
 };

@@ -19,7 +19,7 @@ export class RoomAgent {
         this.socketClient.socket.emit('roomLeave');
     };
 
-    teamSwitch = (team: 'A' | 'B') => {
+    teamSwitch = (team: TUserTeam) => {
         this.socketClient.socket.emit('roomSwitch', team);
     };
 

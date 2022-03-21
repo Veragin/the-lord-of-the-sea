@@ -17,7 +17,7 @@ type Props = {
 export const Room = ({ data, room, onEditName }: Props) => {
     const user = useUser();
 
-    const onTeamSwitch = (team: 'A' | 'B') => {
+    const onTeamSwitch = (team: TUserTeam) => {
         user.roomAgent.teamSwitch(team);
     };
 

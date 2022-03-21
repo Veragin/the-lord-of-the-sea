@@ -1,19 +1,25 @@
 import { Player } from '../Player/Player';
 import { Room } from '../../RoomManager/Room';
+import { Team } from '../Team';
 
 const ENGINE_INTERVAL_MS = 40;
 const SHIP_MAX_SPEED = 10;
 
 export class Engine {
-    interval: NodeJS.Timer;
+    players: Player[];
+    interval: NodeJS.Timer | null = null;
 
-    constructor(public room: Room) {
-        this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
+    constructor(private teams: Team[]) {
+        this.players = teams.flatMap((team) => team.players);
     }
 
+    start = () => {
+        this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
+    };
+
     run = () => {
-        this.room.users.forEach((u) => {
-            if (u.player) this.processPlayer(u.player);
+        this.players.forEach((p) => {
+            this.processPlayer(p);
         });
     };
 
@@ -58,6 +64,6 @@ export class Engine {
     };
 
     destructor = () => {
-        clearInterval(this.interval);
+        if (this.interval !== null) clearInterval(this.interval);
     };
 }

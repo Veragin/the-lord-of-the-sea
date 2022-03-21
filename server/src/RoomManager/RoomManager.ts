@@ -54,7 +54,7 @@ export class RoomManager {
         this.onChange();
     };
 
-    switchTeam = (user: User, team: 'A' | 'B') => {
+    switchTeam = (user: User, team: TUserTeam) => {
         if (user.room === null) return;
 
         if (team === 'A') {
