@@ -19,8 +19,6 @@ declare type TRoom = {
 declare type TGameData = {
     players: {
         id: number;
-        team: TUserTeam;
-        name: string;
         x: number;
         y: number;
         front: TAngle;

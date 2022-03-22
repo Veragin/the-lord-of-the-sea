@@ -1,3 +1,4 @@
+import { Data } from './Data';
 import { Player } from '../Player/Player';
 import { Room } from '../../RoomManager/Room';
 import { Team } from '../Team';
@@ -6,19 +7,16 @@ const ENGINE_INTERVAL_MS = 40;
 const SHIP_MAX_SPEED = 10;
 
 export class Engine {
-    players: Player[];
     interval: NodeJS.Timer | null = null;
 
-    constructor(private teams: Team[]) {
-        this.players = teams.flatMap((team) => team.players);
-    }
+    constructor(private data: Data) {}
 
     start = () => {
         this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
     };
 
     run = () => {
-        this.players.forEach((p) => {
+        this.data.players.forEach((p) => {
             this.processPlayer(p);
         });
     };

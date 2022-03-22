@@ -15,7 +15,7 @@ export class Agent {
         this.socket.emit('msg', msg);
     };
 
-    gameInit = (room: TRoom) => {
-        this.socket.emit('gameInit', room);
+    gameInit = (data: TRoom) => {
+        this.socket.emit('gameInit', data);
     };
 }

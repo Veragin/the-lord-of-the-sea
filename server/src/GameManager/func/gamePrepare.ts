@@ -8,7 +8,7 @@ export const gamePrepare = async (room: Room) => {
 
     const game = createGame(room);
 
-    registerGameEvents(game.players);
+    registerGameEvents(game.data.players);
 
     await clientGameLoad(game);
 
@@ -50,7 +50,7 @@ const clientGameLoad = async (game: Game) => {
             u.socket.on('gameLoadDone', onLoadDone);
         });
 
-        const data = game.export();
+        const data = game.createGameData();
         users.forEach((u) => u.agent.sendGameData(data));
     });
 };

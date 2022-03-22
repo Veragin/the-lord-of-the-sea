@@ -1,15 +1,17 @@
+import { Data } from '../Engine/Data';
 import { Engine } from '../Engine/Engine';
 import { Game } from '../Game';
 import { Player } from '../Player/Player';
 import { Room } from 'src/RoomManager/Room';
 import { Team } from '../Team';
-import { User } from 'src/UserManager/User';
 
 export const createGame = (room: Room): Game => {
     const teams = createTeams(room);
 
-    const engine = new Engine(teams);
-    const game = new Game(engine);
+    const data = new Data(teams);
+
+    const engine = new Engine(data);
+    const game = new Game(room, data, engine);
     room.game = game;
 
     return game;
