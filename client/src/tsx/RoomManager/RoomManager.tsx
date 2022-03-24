@@ -20,7 +20,7 @@ export const RoomManager = () => {
     const [alert, setAlert] = useState('');
 
     useEffect(() => {
-        console.log('Room: Register room events.');
+        console.log('Room: Register roomData events.');
         const roomId = user.eventRegister.subscribe({
             type: 'roomData',
             do: (d) => {
@@ -32,6 +32,11 @@ export const RoomManager = () => {
         return () => user.eventRegister.unsubscribe('roomData', roomId);
     }, [user]);
 
+    const onEditName = () => {
+        setOpenNameEdit('nameChange');
+        setAlert('');
+    };
+
     return (
         <StyledCont>
             <StyledTitle>The Lord of the Sea</StyledTitle>
@@ -42,6 +47,7 @@ export const RoomManager = () => {
                         type={openNameEdit}
                         onClose={() => {
                             setOpenNameEdit(null);
+                            setAlert('');
                         }}
                         setAlert={setAlert}
                     />
@@ -49,13 +55,13 @@ export const RoomManager = () => {
                     <RoomList
                         data={data}
                         setAlert={setAlert}
-                        onEditName={() => setOpenNameEdit('nameChange')}
+                        onEditName={onEditName}
                     />
                 ) : (
                     <Room
                         data={data}
                         room={user.room}
-                        onEditName={() => setOpenNameEdit('nameChange')}
+                        onEditName={onEditName}
                     />
                 )}
             </StyledWindow>

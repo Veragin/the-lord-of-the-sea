@@ -30,7 +30,10 @@ export const GameComponent = ({ room }: Props) => {
 
             const startId = user.eventRegister.subscribe({
                 type: 'gameStart',
-                do: () => setIsLoading(false),
+                do: () => {
+                    setIsLoading(false);
+                    console.log(game);
+                },
             });
 
             // game is ready

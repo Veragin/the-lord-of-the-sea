@@ -3,7 +3,7 @@ import { User } from '../UserManager/User';
 import { wihtoutItem } from '../utils/utils';
 
 export class RoomManager {
-    roomList: Room[] = [];
+    roomList: Room[] = [new Room('Public')];
 
     constructor(private onChange: () => void) {}
 

@@ -1,25 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { GameComponent } from './tsx/GameComponent/GameComponent';
 import { RoomManager } from './tsx/RoomManager/RoomManager';
-import { createUser } from './User/createUser';
-import { userContext } from './tsx/Contexts/UserContext';
+import { useUser } from './tsx/Contexts/UserContext';
 
 const App = () => {
-    const user = useRef(createUser());
+    const user = useUser();
     const [gameRoom, setGameRoom] = useState<TRoom | null>(null);
 
     useEffect(() => {
         let room: TRoom | null = null;
 
-        const initId = user.current.eventRegister.subscribe({
+        const initId = user.eventRegister.subscribe({
             type: 'gameInit',
             do: (r) => {
                 room = r;
                 setGameRoom(r);
             },
         });
-        const endId = user.current.eventRegister.subscribe({
+        const endId = user.eventRegister.subscribe({
             type: 'gameEnd',
             do: (roomId) => {
                 if (roomId === room?.id) {
@@ -30,17 +29,12 @@ const App = () => {
         });
 
         return () => {
-            user.current.eventRegister.unsubscribe('gameInit', initId);
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            user.current.eventRegister.unsubscribe('gameEnd', endId);
+            user.eventRegister.unsubscribe('gameInit', initId);
+            user.eventRegister.unsubscribe('gameEnd', endId);
         };
-    }, []);
+    }, [user]);
 
-    return (
-        <userContext.Provider value={user.current}>
-            {gameRoom ? <GameComponent room={gameRoom} /> : <RoomManager />}
-        </userContext.Provider>
-    );
+    return gameRoom ? <GameComponent room={gameRoom} /> : <RoomManager />;
 };
 
 export default App;

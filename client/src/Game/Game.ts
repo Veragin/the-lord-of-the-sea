@@ -23,6 +23,7 @@ export class Game {
     init = async (room: TRoom, gameLoadData: TGameLoad) => {
         this.data.init(room, gameLoadData, this.user.id());
         registerKeyEvents(this.user);
+        await this.paint.init();
         this.paint.render();
     };
 

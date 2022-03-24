@@ -8,7 +8,19 @@ const imageStore = {
 
 export const createImageStore = async () => {
     const imgNames = Object.keys(imageStore) as (keyof typeof imageStore)[];
-    const promises = imgNames.map((name) => new Promise((resolve) => (imageStore[name].onload = resolve)));
+
+    const promises = imgNames.map(
+        (name) =>
+            new Promise((resolve) =>
+                imageStore[name].addEventListener(
+                    'load',
+                    () => {
+                        resolve(true);
+                    },
+                    false
+                )
+            )
+    );
 
     imageStore.ship.src = shipSrc;
     imageStore.canoe.src = canoeSrc;

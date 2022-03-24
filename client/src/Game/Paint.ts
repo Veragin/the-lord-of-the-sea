@@ -20,7 +20,7 @@ export class Paint {
 
     render = () => {
         requestAnimationFrame(() => {
-            this.ctx.fillStyle = 'blue';
+            this.ctx.fillStyle = '#80CDFF';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
             this.ctx.save();
@@ -32,10 +32,11 @@ export class Paint {
         });
     };
 
-    renderPlayer = (player: TPlayer) => {
+    private renderPlayer = (player: TPlayer) => {
         const image = this.imgStore?.ship;
         if (!image) return;
 
+        console.log('render Player');
         this.ctx.save();
         this.ctx.rotate(player.data.front);
 
