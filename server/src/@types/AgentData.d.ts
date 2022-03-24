@@ -24,3 +24,8 @@ declare type TGameData = {
         front: TAngle;
     }[];
 };
+
+declare type TGameLoad = {
+    data: TGameData;
+    users: TName[];
+};

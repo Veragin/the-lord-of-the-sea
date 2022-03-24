@@ -21,4 +21,9 @@ export class Game {
             front: p.ship.front,
         })),
     });
+
+    start = () => {
+        this.room.users.forEach((u) => u.agent.gameStart());
+        this.engine.start(this.sendGameInfo);
+    };
 }

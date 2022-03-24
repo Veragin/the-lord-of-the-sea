@@ -19,8 +19,13 @@ declare type TRoom = {
 declare type TGameData = {
     players: {
         id: number;
-        name: string;
         x: number;
         y: number;
+        front: TAngle;
     }[];
+};
+
+declare type TGameLoad = {
+    data: TGameData;
+    users: TName[];
 };

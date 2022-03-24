@@ -6,6 +6,10 @@ export class EventRegister {
     register: TEventRegister = {
         gameData: [],
         roomData: [],
+        gameInit: [],
+        gameLoad: [],
+        gameStart: [],
+        gameEnd: [],
         msg: [],
     };
 
@@ -22,6 +26,22 @@ export class EventRegister {
             this.register.roomData.forEach((c) => c.do(roomData));
         });
 
+        this.socketClient.socket.on('gameInit', (room: TRoom) => {
+            this.register.gameInit.forEach((c) => c.do(room));
+        });
+
+        this.socketClient.socket.on('gameLoad', (gameData: TGameLoad) => {
+            this.register.gameLoad.forEach((c) => c.do(gameData));
+        });
+
+        this.socketClient.socket.on('gameStart', () => {
+            this.register.gameStart.forEach((c) => c.do());
+        });
+
+        this.socketClient.socket.on('gameEnd', (roomId: number) => {
+            this.register.gameEnd.forEach((c) => c.do(roomId));
+        });
+
         this.socketClient.socket.on('msg', (msg: string) => {
             this.register.msg.forEach((c) => c.do(msg));
         });
@@ -29,32 +49,12 @@ export class EventRegister {
 
     subscribe = (eventSub: TEventRegisterSub) => {
         const id = generateId();
-        switch (eventSub.type) {
-            case 'gameData':
-                this.register.gameData.push({ id, do: eventSub.do });
-                break;
-            case 'roomData':
-                this.register.roomData.push({ id, do: eventSub.do });
-                break;
-            case 'msg':
-                this.register.msg.push({ id, do: eventSub.do });
-                break;
-        }
+        this.register[eventSub.type].push({ id, do: eventSub.do as any });
         return id;
     };
 
     unsubscribe = (event: TSocketEvent, id: number) => {
-        switch (event) {
-            case 'gameData':
-                this.register.gameData = wihtoutId(this.register.gameData, id);
-                break;
-            case 'roomData':
-                this.register.roomData = wihtoutId(this.register.roomData, id);
-                break;
-            case 'msg':
-                this.register.msg = wihtoutId(this.register.msg, id);
-                break;
-        }
+        this.register[event] = wihtoutId<any>(this.register[event], id);
     };
 }
 
@@ -66,6 +66,22 @@ type TEventRegister = {
     roomData: {
         id: number;
         do: (data: TRoomData) => void;
+    }[];
+    gameInit: {
+        id: number;
+        do: (data: TRoom) => void;
+    }[];
+    gameLoad: {
+        id: number;
+        do: (data: TGameLoad) => void;
+    }[];
+    gameStart: {
+        id: number;
+        do: () => void;
+    }[];
+    gameEnd: {
+        id: number;
+        do: (roomId: number) => void;
     }[];
     msg: { id: number; do: (data: string) => void }[];
 };
@@ -80,8 +96,24 @@ type TEventRegisterSub =
           do: (data: TRoomData) => void;
       }
     | {
+          type: 'gameInit';
+          do: (data: TRoom) => void;
+      }
+    | {
+          type: 'gameLoad';
+          do: (data: TGameLoad) => void;
+      }
+    | {
+          type: 'gameStart';
+          do: () => void;
+      }
+    | {
+          type: 'gameEnd';
+          do: (roomId: number) => void;
+      }
+    | {
           type: 'msg';
           do: (data: string) => void;
       };
 
-declare type TSocketEvent = keyof TEventRegister;
+type TSocketEvent = keyof TEventRegister;

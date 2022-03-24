@@ -57,6 +57,7 @@ export const Button = styled.button<{
     color: white;
     font-size: 16px;
     width: min-content;
+    white-space: nowrap;
 
     &:hover {
         background-color: ${({ $color }) => getColor($color).light};

@@ -26,4 +26,12 @@ export class GameAgent {
     doFire = (on: boolean) => {
         this.socketClient.socket.emit('gameFire', on);
     };
+
+    initDone = () => {
+        this.socketClient.socket.emit('gameInitDone');
+    };
+
+    laodDone = () => {
+        this.socketClient.socket.emit('gameLoadDone');
+    };
 }

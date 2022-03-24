@@ -18,4 +18,12 @@ export class Agent {
     gameInit = (data: TRoom) => {
         this.socket.emit('gameInit', data);
     };
+
+    gameLoad = (data: TGameLoad) => {
+        this.socket.emit('gameLoad', data);
+    };
+
+    gameStart = () => {
+        this.socket.emit('gameStart');
+    };
 }

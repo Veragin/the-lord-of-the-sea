@@ -1,8 +1,6 @@
-import { EventRegister } from '../Agent/EventRegister';
-
 export class DataProvider {
-    private gameId: number;
-    public game: TGameData = { players: [] };
+    public you: TPlayer = defaultPlayer;
+    public players: TPlayer[] = [];
     public canvas = {
         x: 0,
         y: 0,
@@ -10,11 +8,31 @@ export class DataProvider {
         height: 0,
     };
 
-    constructor(private eventRegister: EventRegister, public room: TRoom) {
-        this.gameId = eventRegister.subscribe({ type: 'gameData', do: (d) => (this.game = d) });
-    }
+    init = (room: TRoom, data: TGameLoad, userId: number) => {
+        this.players = data.users.map((u) => ({
+            id: u.id,
+            name: u.name,
+            team: room.teamA.includes(u.id) ? 'A' : 'B',
+            data: data.data.players.find((p) => p.id === u.id) ?? { ...defaultPlayerData },
+        }));
 
-    destructor = () => {
-        this.eventRegister.unsubscribe('gameData', this.gameId);
+        this.you = this.players.find((p) => p.id === userId) ?? defaultPlayer;
+    };
+
+    update = (data: TGameData) => {
+        data.players.forEach((p) => {
+            const player = this.players.find((pp) => pp.id === p.id);
+            if (player) {
+                player.data = p;
+            }
+        });
     };
 }
+
+const defaultPlayerData = { x: 0, y: 0, front: 0 };
+const defaultPlayer: TPlayer = {
+    id: 0,
+    name: '',
+    team: 'A',
+    data: { ...defaultPlayerData },
+};

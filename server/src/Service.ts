@@ -31,7 +31,9 @@ export class Service {
         }
     };
 
-    startGame = (room: Room) => {
-        const game = gamePrepare(room);
+    startGame = async (room: Room) => {
+        const game = await gamePrepare(room);
+        this.gameManager.addGame(game);
+        game.start();
     };
 }

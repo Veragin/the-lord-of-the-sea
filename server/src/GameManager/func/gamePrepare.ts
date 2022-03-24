@@ -50,7 +50,10 @@ const clientGameLoad = async (game: Game) => {
             u.socket.on('gameLoadDone', onLoadDone);
         });
 
-        const data = game.createGameData();
-        users.forEach((u) => u.agent.sendGameData(data));
+        const data = {
+            data: game.createGameData(),
+            users: users.map((u) => ({ id: u.id, name: u.name })),
+        };
+        users.forEach((u) => u.agent.gameLoad(data));
     });
 };

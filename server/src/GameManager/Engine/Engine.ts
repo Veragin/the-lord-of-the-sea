@@ -8,10 +8,12 @@ const SHIP_MAX_SPEED = 10;
 
 export class Engine {
     interval: NodeJS.Timer | null = null;
+    sendData: () => void = () => {};
 
     constructor(private data: Data) {}
 
-    start = () => {
+    start = (sendData: () => void) => {
+        this.sendData = sendData;
         this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
     };
 
@@ -19,6 +21,7 @@ export class Engine {
         this.data.players.forEach((p) => {
             this.processPlayer(p);
         });
+        this.sendData();
     };
 
     processPlayer = (player: Player) => {
