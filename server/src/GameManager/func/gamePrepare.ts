@@ -50,9 +50,10 @@ const clientGameLoad = async (game: Game) => {
             u.socket.on('gameLoadDone', onLoadDone);
         });
 
-        const data = {
+        const data: TGameLoad = {
             data: game.createGameData(),
             users: users.map((u) => ({ id: u.id, name: u.name })),
+            islands: game.data.islands.map((i) => ({ ...i })),
         };
         users.forEach((u) => u.agent.gameLoad(data));
     });

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Column } from '../StyledComponents';
 import { Game } from '../../Game/Game';
+import { createGame } from '../../Game/createGame';
 import styled from 'styled-components';
 import { useUser } from '../Contexts/UserContext';
 
@@ -16,37 +17,15 @@ export const GameComponent = ({ room }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        console.log('useEffect');
         if (canvasRef.current) {
-            const game = new Game(user, canvasRef.current);
-            gameRef.current = game;
-
-            const loadId = user.eventRegister.subscribe({
-                type: 'gameLoad',
-                do: async (loadData) => {
-                    await game.init(room, loadData);
-                    user.gameAgent.laodDone();
-                },
-            });
-
-            const startId = user.eventRegister.subscribe({
-                type: 'gameStart',
-                do: () => {
-                    setIsLoading(false);
-                    console.log(game);
-                },
-            });
-
-            // game is ready
-            user.gameAgent.initDone();
-
-            return () => {
-                user.eventRegister.unsubscribe('gameLoad', loadId);
-                user.eventRegister.unsubscribe('gameStart', startId);
-            };
+            gameRef.current = createGame(room, user, canvasRef.current, () =>
+                setIsLoading(false)
+            );
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [canvasRef.current]);
+    }, []);
 
     return (
         <StyledCont>

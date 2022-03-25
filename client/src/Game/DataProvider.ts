@@ -1,6 +1,7 @@
 export class DataProvider {
     public you: TPlayer = defaultPlayer;
     public players: TPlayer[] = [];
+    public islands: TIsland[] = [];
     public canvas = {
         x: 0,
         y: 0,
@@ -14,9 +15,12 @@ export class DataProvider {
             name: u.name,
             team: room.teamA.includes(u.id) ? 'A' : 'B',
             data: data.data.players.find((p) => p.id === u.id) ?? { ...defaultPlayerData },
+            const: { ...defaultPlayer.const },
         }));
 
         this.you = this.players.find((p) => p.id === userId) ?? defaultPlayer;
+
+        this.islands = data.islands;
     };
 
     update = (data: TGameData) => {
@@ -35,4 +39,5 @@ const defaultPlayer: TPlayer = {
     name: '',
     team: 'A',
     data: { ...defaultPlayerData },
+    const: { w: 40, h: 100 },
 };

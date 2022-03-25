@@ -9,4 +9,8 @@ declare type TPlayer = {
         y: number;
         front: number;
     };
+    const: {
+        w: number;
+        h: number;
+    };
 };

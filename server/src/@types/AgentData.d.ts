@@ -28,4 +28,5 @@ declare type TGameData = {
 declare type TGameLoad = {
     data: TGameData;
     users: TName[];
+    islands: TIsland[];
 };

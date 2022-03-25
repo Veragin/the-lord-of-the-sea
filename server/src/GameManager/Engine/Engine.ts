@@ -62,6 +62,9 @@ export class Engine {
                 ship.speedY = 0;
             }
         }
+
+        ship.x += ship.speedX;
+        ship.y += ship.speedY;
     };
 
     destructor = () => {
