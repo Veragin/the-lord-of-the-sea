@@ -55,12 +55,12 @@ const userGameInit = (user: User, data: TRoom) => {
         const onInitDone = () => {
             user.state = 'gameInitDone';
             user.socket.off('gameInitDone', onInitDone);
-            console.log('gameInitDone', user.socket.id);
+            console.log('gameInitDone off', user.socket.id);
             resolve(true);
         };
         user.socket.on('gameInitDone', onInitDone);
 
-        console.log('gameInitDone', user.socket.id);
+        console.log('gameInitDone emit', user.socket.id);
         user.agent.gameInit(data);
     });
 };

@@ -1,5 +1,10 @@
 declare type TAngle = number; // radians in (0,2)
 
+declare type TPoint = {
+    x: number;
+    y: number;
+};
+
 declare type TRect = {
     x: number;
     y: number;

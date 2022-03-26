@@ -17,4 +17,9 @@ export class User {
     constructor(public socket: Socket, public agent: Agent, name?: string) {
         if (name) this.name = name;
     }
+
+    setSocket = (socket: Socket) => {
+        this.socket = socket;
+        this.agent = new Agent(socket);
+    };
 }

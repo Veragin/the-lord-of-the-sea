@@ -1,3 +1,5 @@
+import { collisionArcRRect, collisionArcRect } from './Geometry';
+
 import { Data } from './Data';
 import { Player } from '../Player/Player';
 
@@ -31,15 +33,15 @@ export class Engine {
         const ship = player.ship;
 
         if (control.left) {
-            ship.front -= ship.rotate;
+            ship.angle -= ship.rotate;
         }
 
         if (control.right) {
-            ship.front += ship.rotate;
+            ship.angle += ship.rotate;
         }
 
-        const cosFront = Math.cos(ship.front);
-        const sinFront = Math.sin(ship.front);
+        const cosFront = Math.cos(ship.angle);
+        const sinFront = Math.sin(ship.angle);
 
         if (control.forward) {
             ship.speedX -= cosFront * ship.speed;
@@ -76,7 +78,15 @@ export class Engine {
         ship.y += ship.speedY;
     };
 
-    checkPlayerColision = (player: Player) => {};
+    checkPlayerColision = (player: Player) => {
+        for (let island of this.data.islands) {
+            if (collisionArcRRect(island, player.ship)) {
+                player.ship.x = 0;
+                player.ship.y = 0;
+                break;
+            }
+        }
+    };
 
     destructor = () => {
         if (this.interval !== null) clearInterval(this.interval);

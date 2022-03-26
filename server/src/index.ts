@@ -67,7 +67,7 @@ io.sockets.on('connection', (socket) => {
                 return;
             }
             user.isConnected = true;
-            user.socket = socket;
+            user.setSocket(socket);
         }
 
         service.registerEvents(user);

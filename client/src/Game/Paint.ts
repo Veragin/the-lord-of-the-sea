@@ -63,14 +63,17 @@ export class Paint {
         if (!image) return;
 
         this.ctx.rotate(player.data.front + Math.PI / 2);
-        this.ctx.drawImage(image, -player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
+        //this.ctx.drawImage(image, -player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
+
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(-player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
     };
 
     private renderIsland = (island: TIsland) => {
         this.ctx.fillStyle = 'green';
 
         this.ctx.beginPath();
-        this.ctx.ellipse(0, 0, island.w, island.h, 0, 0, 2 * Math.PI);
+        this.ctx.arc(0, 0, island.r, 0, 2 * Math.PI);
         this.ctx.fill();
     };
 }

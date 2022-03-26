@@ -11,6 +11,8 @@ const App = () => {
     useEffect(() => {
         let room: TRoom | null = null;
 
+        console.log('game init in useEffect');
+
         const initId = user.eventRegister.subscribe({
             type: 'gameInit',
             do: (r) => {
