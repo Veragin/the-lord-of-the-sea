@@ -3,7 +3,7 @@ import { Socket, io } from 'socket.io-client';
 export class SocketClient {
     userId: number = 0;
     isConnected = false;
-    authToken?: string;
+    authToken?: string = 'DUMMY_AUTH';
     socket: Socket;
 
     constructor() {
@@ -16,12 +16,12 @@ export class SocketClient {
     register = () => {
         this.socket.on('connect', () => {
             this.isConnected = true;
-
+            /*  cant be used due to 2 sockets
             if (this.authToken !== undefined) {
                 // user was already connected (has authToken) => do reconnect
                 console.log('Ws Reconnecting');
                 this.socket.emit('login', undefined, this.authToken);
-            }
+            }*/
         });
 
         this.socket.on('connect_error', (e) => {

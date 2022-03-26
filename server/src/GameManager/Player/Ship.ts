@@ -8,6 +8,7 @@ export class Ship {
     front: TAngle = 0;
     weight: number = 1;
 
-    rotate: TAngle = 0.01;
-    speed: number = 0.5;
+    rotate: TAngle = 0.03;
+    speed: number = 0.1;
+    maxSpeed: number = 1;
 }

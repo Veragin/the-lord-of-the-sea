@@ -73,6 +73,11 @@ io.sockets.on('connection', (socket) => {
         service.registerEvents(user);
         socket.emit('init', user.id, user.authToken);
         service.sendsRoomChange(user);
+
+        if (user.room?.game) {
+            // user is already in the game ... connect him
+            service.reconnectUserToHisGame(user);
+        }
     });
 
     socket.on('logout', () => {

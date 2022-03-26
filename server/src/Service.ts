@@ -1,9 +1,10 @@
+import { connectUserToHisGame, gamePrepare } from './GameManager/func/gamePrepare';
+
 import { GameManager } from './GameManager/GamerManager';
 import { Room } from './RoomManager/Room';
 import { RoomManager } from './RoomManager/RoomManager';
 import { User } from './UserManager/User';
 import { UserManager } from './UserManager/UserManager';
-import { gamePrepare } from './GameManager/func/gamePrepare';
 import { registerRoomEvents } from './RoomManager/registerRoomEvents';
 import { registerUserEvents } from './UserManager/registerUserEvents';
 
@@ -35,5 +36,9 @@ export class Service {
         const game = await gamePrepare(room);
         this.gameManager.addGame(game);
         game.start();
+    };
+
+    reconnectUserToHisGame = (user: User) => {
+        connectUserToHisGame(user);
     };
 }

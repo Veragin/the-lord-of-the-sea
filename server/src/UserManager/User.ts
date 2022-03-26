@@ -9,7 +9,7 @@ export class User {
     name: string = `User ${this.id}`;
     state: TUserState = 'inRoom';
 
-    authToken = uuid();
+    authToken = 'DUMMY_AUTH'; ///uuid();
     isConnected = true;
 
     room: Room | null = null;

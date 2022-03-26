@@ -10,7 +10,7 @@ export class Game {
 
     sendGameInfo = () => {
         const data = this.createGameData();
-        this.data.players.forEach((p) => p.user.agent.sendGameData(data));
+        this.data.players.filter((p) => p.user.isConnected).forEach((p) => p.user.agent.sendGameData(data));
     };
 
     createGameData = (): TGameData => ({
