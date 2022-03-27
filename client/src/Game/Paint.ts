@@ -6,13 +6,13 @@ import { DataProvider } from './DataProvider';
 const BORDER_W = GAME_VISIBLE_WIDTH / 2 + GAME_VISIBLE_PADDING;
 const BORDER_H = GAME_VISIBLE_HEIGHT / 2 + GAME_VISIBLE_PADDING;
 
+const BOAT_PADDING = 10;
+
 export class Paint {
     ctx: CanvasRenderingContext2D;
     imgStore: TImageStore | null = null;
 
     constructor(private canvas: HTMLCanvasElement, private data: DataProvider) {
-        console.log('create paint');
-
         const ctx = this.canvas.getContext('2d');
         if (ctx === null) {
             throw new Error('Context was not created');
@@ -31,8 +31,8 @@ export class Paint {
 
             this.ctx.save();
             this.ctx.translate(
-                this.canvas.width / 2 + this.data.you.data.x,
-                this.canvas.height / 2 + this.data.you.data.y
+                this.canvas.width / 2 - this.data.you.data.x,
+                this.canvas.height / 2 - this.data.you.data.y
             );
 
             this.data.islands.forEach((i) => this.checkRender(i, () => this.renderIsland(i)));
@@ -53,20 +53,28 @@ export class Paint {
         }
 
         this.ctx.save();
-        this.ctx.translate(-o.x, -o.y);
+        this.ctx.translate(o.x, o.y);
         render();
         this.ctx.restore();
     };
 
     private renderPlayer = (player: TPlayer) => {
-        const image = this.imgStore?.canoe;
-        if (!image) return;
+        const store = this.imgStore;
+        if (!store) return;
 
-        this.ctx.rotate(player.data.front + Math.PI / 2);
-        //this.ctx.drawImage(image, -player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
+        const image = player.data.sail ? store.baseOn : store.baseOff;
 
-        this.ctx.fillStyle = 'red';
-        this.ctx.fillRect(-player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
+        this.ctx.rotate(player.data.angle - Math.PI / 2);
+        this.ctx.drawImage(
+            image,
+            -player.const.w / 2 - BOAT_PADDING,
+            -player.const.h / 2 - BOAT_PADDING,
+            player.const.w + 2 * BOAT_PADDING,
+            player.const.h + 2 * BOAT_PADDING
+        );
+
+        //this.ctx.fillStyle = 'red';
+        //this.ctx.fillRect(-player.const.w / 2, -player.const.h / 2, player.const.w, player.const.h);
     };
 
     private renderIsland = (island: TIsland) => {

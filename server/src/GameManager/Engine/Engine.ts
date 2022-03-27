@@ -2,6 +2,7 @@ import { collisionArcRRect, collisionArcRect } from './Geometry';
 
 import { Data } from './Data';
 import { Player } from '../Player/Player';
+import { Ship } from '../Player/Ship';
 
 const ENGINE_INTERVAL_MS = 40;
 
@@ -44,19 +45,18 @@ export class Engine {
         const sinFront = Math.sin(ship.angle);
 
         if (control.forward) {
-            ship.speedX -= cosFront * ship.speed;
-            ship.speedY -= sinFront * ship.speed;
+            ship.speedX += cosFront * ship.speed;
+            ship.speedY += sinFront * ship.speed;
 
-            if (Math.abs(ship.speedX) > ship.maxSpeed) ship.speedX = Math.sign(ship.speedX) * ship.maxSpeed;
-            if (Math.abs(ship.speedY) > ship.maxSpeed) ship.speedY = Math.sign(ship.speedY) * ship.maxSpeed;
+            this.checkMaxSpeed(player.ship);
         }
 
         if (control.back) {
             const prevX = ship.speedX;
             const prevY = ship.speedY;
 
-            const newX = ship.speedX + cosFront * ship.speed;
-            const newY = ship.speedY + sinFront * ship.speed;
+            const newX = ship.speedX - cosFront * ship.speed;
+            const newY = ship.speedY - sinFront * ship.speed;
 
             if (Math.sign(prevX) !== Math.sign(newX)) {
                 ship.speedX = 0;
@@ -76,6 +76,15 @@ export class Engine {
 
         ship.x += ship.speedX;
         ship.y += ship.speedY;
+    };
+
+    checkMaxSpeed = (ship: Ship) => {
+        const currSpeed = Math.abs(ship.speedX) + Math.abs(ship.speedY);
+        if (currSpeed > ship.maxSpeed) {
+            const correction = ship.maxSpeed / currSpeed;
+            ship.speedX *= correction;
+            ship.speedY *= correction;
+        }
     };
 
     checkPlayerColision = (player: Player) => {

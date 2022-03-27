@@ -7,7 +7,8 @@ declare type TPlayer = {
     data: {
         x: number;
         y: number;
-        front: number;
+        angle: number;
+        sail: boolean;
     };
     const: {
         w: number;

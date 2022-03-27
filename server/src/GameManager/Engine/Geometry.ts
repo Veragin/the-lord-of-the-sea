@@ -26,10 +26,13 @@ export const collisionArcRect = (arc: TArc, rect: TRect): boolean => {
         return true;
     }
 
-    const cornerDistanceSq = ((arcDistanceX - rect.w / 2) ^ 2) + ((arcDistanceY - rect.h / 2) ^ 2);
-    return cornerDistanceSq <= (arc.r ^ 2);
+    const cornerDistanceSq =
+        (arcDistanceX - rect.w / 2) * (arcDistanceX - rect.w / 2) +
+        (arcDistanceY - rect.h / 2) * (arcDistanceY - rect.h / 2);
+
+    return cornerDistanceSq <= arc.r * arc.r;
 };
 
 export const collisionArcRRect = (arc: TArc, rect: TRRect): boolean => {
-    return collisionArcRect({ ...rotatePoint(rect.angle, rect, arc), r: arc.r }, rect);
+    return collisionArcRect({ ...rotatePoint(-rect.angle, rect, arc), r: arc.r }, rect);
 };

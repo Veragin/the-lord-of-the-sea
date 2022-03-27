@@ -21,7 +21,8 @@ declare type TGameData = {
         id: number;
         x: number;
         y: number;
-        front: TAngle;
+        angle: TAngle;
+        sail: boolean;
     }[];
 };
 

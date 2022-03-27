@@ -18,7 +18,8 @@ export class Game {
             id: p.user.id,
             x: p.ship.x,
             y: p.ship.y,
-            front: p.ship.angle,
+            angle: p.ship.angle,
+            sail: p.control.sail,
         })),
     });
 

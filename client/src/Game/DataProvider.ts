@@ -33,7 +33,7 @@ export class DataProvider {
     };
 }
 
-const defaultPlayerData = { x: 0, y: 0, front: 0 };
+const defaultPlayerData = { x: 0, y: 0, angle: 0, sail: false };
 const defaultPlayer: TPlayer = {
     id: 0,
     name: '',
