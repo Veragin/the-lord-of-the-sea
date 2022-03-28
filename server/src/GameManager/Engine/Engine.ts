@@ -21,6 +21,7 @@ export class Engine {
         this.data.players.forEach((p) => {
             this.processPlayer(p);
         });
+        this.processWind();
         this.sendData();
     };
 
@@ -47,8 +48,6 @@ export class Engine {
         if (control.forward) {
             ship.speedX += cosFront * ship.speed;
             ship.speedY += sinFront * ship.speed;
-
-            this.checkMaxSpeed(player.ship);
         }
 
         if (control.back) {
@@ -74,6 +73,14 @@ export class Engine {
             }
         }
 
+        this.checkMaxSpeed(player.ship);
+
+        if (control.sail) {
+            // can be higher than ship.maxSpeed
+            ship.speedX += this.data.wind.speedX;
+            ship.speedY += this.data.wind.speedY;
+        }
+
         ship.x += ship.speedX;
         ship.y += ship.speedY;
     };
@@ -94,6 +101,16 @@ export class Engine {
                 player.ship.y = 0;
                 break;
             }
+        }
+    };
+
+    processWind = () => {
+        if (Math.random() < 0.005) {
+            this.data.wind.angle += Math.random() - 0.5;
+            this.data.wind.strength = 0.5 + Math.random();
+
+            this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength;
+            this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength;
         }
     };
 

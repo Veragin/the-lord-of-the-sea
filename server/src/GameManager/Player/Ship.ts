@@ -13,4 +13,8 @@ export class Ship {
     rotate: TAngle = 0.03;
     speed: number = 0.1;
     maxSpeed: number = 5;
+
+    attackSpeed: number = 1;
+    attackCooldown: number = 0;
+    attackDamage: number = 1;
 }

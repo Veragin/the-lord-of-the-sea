@@ -2,6 +2,10 @@ export class DataProvider {
     public you: TPlayer = defaultPlayer;
     public players: TPlayer[] = [];
     public islands: TIsland[] = [];
+    public wind = {
+        angle: 0,
+        strength: 0,
+    };
     public canvas = {
         x: 0,
         y: 0,
@@ -21,6 +25,7 @@ export class DataProvider {
         this.you = this.players.find((p) => p.id === userId) ?? defaultPlayer;
 
         this.islands = data.islands;
+        this.wind = data.wind;
     };
 
     update = (data: TGameData) => {
@@ -30,6 +35,8 @@ export class DataProvider {
                 player.data = p;
             }
         });
+
+        this.wind = data.wind;
     };
 }
 

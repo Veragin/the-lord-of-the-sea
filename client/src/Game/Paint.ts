@@ -39,6 +39,8 @@ export class Paint {
             this.data.players.forEach((p) => this.checkRender(p.data, () => this.renderPlayer(p)));
 
             this.ctx.restore();
+
+            this.renderWind();
         });
     };
 
@@ -83,5 +85,23 @@ export class Paint {
         this.ctx.beginPath();
         this.ctx.arc(0, 0, island.r, 0, 2 * Math.PI);
         this.ctx.fill();
+    };
+
+    private renderWind = () => {
+        this.ctx.save();
+        this.ctx.translate(140, 140);
+        this.ctx.rotate(this.data.wind.angle);
+
+        this.ctx.fillStyle = 'white';
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 100, 0, 2 * Math.PI);
+        this.ctx.fill();
+
+        this.ctx.fillStyle = 'red';
+        this.ctx.beginPath();
+        this.ctx.arc(60 * this.data.wind.strength, 0, 5, 0, 2 * Math.PI);
+        this.ctx.fill();
+
+        this.ctx.restore();
     };
 }

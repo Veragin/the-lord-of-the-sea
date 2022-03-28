@@ -21,6 +21,10 @@ export class Game {
             angle: p.ship.angle,
             sail: p.control.sail,
         })),
+        wind: {
+            angle: this.data.wind.angle,
+            strength: this.data.wind.strength,
+        },
     });
 
     start = () => {

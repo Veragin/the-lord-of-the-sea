@@ -1,6 +1,8 @@
 import baseOffSrc from '../Assets/image/ships/baseOff.png';
 import baseOnSrc from '../Assets/image/ships/baseOn.png';
 import canoeSrc from '../Assets/image/ships/canoe.png';
+import galeraOffSrc from '../Assets/image/ships/galeraOff.png';
+import galeraOnSrc from '../Assets/image/ships/galeraOn.png';
 import shipSrc from '../Assets/image/ships/ship.png';
 
 const imageStore = {
@@ -8,6 +10,8 @@ const imageStore = {
     canoe: new Image(),
     baseOn: new Image(),
     baseOff: new Image(),
+    galeraOn: new Image(),
+    galeraOff: new Image(),
 };
 
 export const createImageStore = async () => {
@@ -30,6 +34,8 @@ export const createImageStore = async () => {
     imageStore.canoe.src = canoeSrc;
     imageStore.baseOn.src = baseOnSrc;
     imageStore.baseOff.src = baseOffSrc;
+    imageStore.galeraOn.src = galeraOnSrc;
+    imageStore.galeraOff.src = galeraOffSrc;
 
     await Promise.all(promises);
 

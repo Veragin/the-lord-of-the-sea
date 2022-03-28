@@ -24,10 +24,18 @@ declare type TGameData = {
         angle: TAngle;
         sail: boolean;
     }[];
+    wind: {
+        angle: number;
+        strength: number;
+    };
 };
 
 declare type TGameLoad = {
     data: TGameData;
     users: TName[];
     islands: TIsland[];
+    wind: {
+        angle: number;
+        strength: number;
+    };
 };
