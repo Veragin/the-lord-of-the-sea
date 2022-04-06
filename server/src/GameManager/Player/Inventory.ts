@@ -1,15 +1,18 @@
-export class Inventory<T> {
+export class Inventory<T extends { id: number }> {
     maxSize: number = 3;
     stack: T[] = [];
 
-    add = (item: T) => {
-        if (this.stack.length <= this.maxSize) {
-            this.stack.push(item);
-        }
+    add = (items: T[]) => {
+        items.forEach((i) => {
+            if (this.stack.length <= this.maxSize) {
+                this.stack.push(i);
+            }
+        });
     };
 
-    remove = (item: T) => {
-        this.stack = this.stack.filter((i) => i !== item);
+    remove = (items: T[]) => {
+        const ids = items.map((i) => i.id);
+        this.stack = this.stack.filter((i) => !ids.includes(i.id));
     };
 
     setMaxSize = (size: number) => {

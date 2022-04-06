@@ -1,4 +1,5 @@
 declare type TItemBase = {
+    id: number;
     name: string;
     type: string;
 };

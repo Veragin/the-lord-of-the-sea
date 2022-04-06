@@ -1,4 +1,4 @@
-export const itemList: TItem[] = [
+export const itemList = [
     {
         name: 'fish',
         type: 'food',
@@ -44,4 +44,8 @@ export const itemList: TItem[] = [
         type: 'treasure',
         value: 500,
     },
-];
+] as const;
+
+export const itemNames = itemList.map((i) => i.name);
+
+export type TItemName = typeof itemNames[number];

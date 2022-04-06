@@ -17,11 +17,17 @@ export class EventRegister {
         this.registerEvents();
     }
 
-    private registerEvents = () => {
+    private registerGameEvents = () => {
         this.socketClient.socket.on('gameData', (gameData: TGameData) => {
             this.register.gameData.forEach((c) => c.do(gameData));
         });
 
+        this.socketClient.socket.on('gamePlayerData', (gamePlayerData: TGameData) => {
+            this.register.gamePlayerData.forEach((c) => c.do(gamePlayerData));
+        });
+    };
+
+    private registerEvents = () => {
         this.socketClient.socket.on('roomData', (roomData: TRoomData) => {
             this.register.roomData.forEach((c) => c.do(roomData));
         });
@@ -60,6 +66,10 @@ export class EventRegister {
 
 type TEventRegister = {
     gameData: {
+        id: number;
+        do: (data: TGameData) => void;
+    }[];
+    gamePlayerData: {
         id: number;
         do: (data: TGameData) => void;
     }[];

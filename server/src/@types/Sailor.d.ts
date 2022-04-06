@@ -1,1 +1,1 @@
-declare type TSailorUnit = '';
+declare type TSailorType = 'none';

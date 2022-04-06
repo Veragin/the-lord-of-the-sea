@@ -7,6 +7,10 @@ export class Agent {
         this.socket.emit('gameData', data);
     };
 
+    sendGamePlayerData = (data: TGamePlayerData) => {
+        this.socket.emit('gamePlayerData', data);
+    };
+
     sendRoomData = (data: TRoomData) => {
         this.socket.emit('roomData', data);
     };

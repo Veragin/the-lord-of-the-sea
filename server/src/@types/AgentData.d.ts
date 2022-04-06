@@ -30,6 +30,12 @@ declare type TGameData = {
     };
 };
 
+declare type TGamePlayerData = {
+    gold: number;
+    inventory: import('../GameManager/Player/Items').TItemName[];
+    maxInventory: number;
+};
+
 declare type TGameLoad = {
     data: TGameData;
     users: TName[];
