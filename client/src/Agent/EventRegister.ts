@@ -1,10 +1,10 @@
 import { generateId, wihtoutId } from '../utils/utils';
 
+import { DataProvider } from '../Game/DataProvider';
 import { SocketClient } from './SocketClient';
 
 export class EventRegister {
     register: TEventRegister = {
-        gameData: [],
         roomData: [],
         gameInit: [],
         gameLoad: [],
@@ -17,13 +17,13 @@ export class EventRegister {
         this.registerEvents();
     }
 
-    private registerGameEvents = () => {
+    registerGameEvents = (data: DataProvider) => {
         this.socketClient.socket.on('gameData', (gameData: TGameData) => {
-            this.register.gameData.forEach((c) => c.do(gameData));
+            data.update(gameData);
         });
 
-        this.socketClient.socket.on('gamePlayerData', (gamePlayerData: TGameData) => {
-            this.register.gamePlayerData.forEach((c) => c.do(gamePlayerData));
+        this.socketClient.socket.on('gamePlayerData', (gamePlayerData: TGamePlayerData) => {
+            data.updatePlayerData(gamePlayerData);
         });
     };
 
@@ -65,14 +65,6 @@ export class EventRegister {
 }
 
 type TEventRegister = {
-    gameData: {
-        id: number;
-        do: (data: TGameData) => void;
-    }[];
-    gamePlayerData: {
-        id: number;
-        do: (data: TGameData) => void;
-    }[];
     roomData: {
         id: number;
         do: (data: TRoomData) => void;
@@ -97,10 +89,6 @@ type TEventRegister = {
 };
 
 type TEventRegisterSub =
-    | {
-          type: 'gameData';
-          do: (data: TGameData) => void;
-      }
     | {
           type: 'roomData';
           do: (data: TRoomData) => void;

@@ -1,7 +1,7 @@
 import { Inventory } from './Inventory';
 import { Sailor } from './Sailor';
 import { Ship } from './Ship';
-import { TItemName } from './Items';
+import { TItemName } from '../../Const/Items';
 import { Team } from '../Team';
 import { User } from 'src/UserManager/User';
 

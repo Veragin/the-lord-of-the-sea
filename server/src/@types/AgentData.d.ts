@@ -32,7 +32,7 @@ declare type TGameData = {
 
 declare type TGamePlayerData = {
     gold: number;
-    inventory: import('../GameManager/Player/Items').TItemName[];
+    inventory: import('../Const/Items').TItemName[];
     maxInventory: number;
 };
 

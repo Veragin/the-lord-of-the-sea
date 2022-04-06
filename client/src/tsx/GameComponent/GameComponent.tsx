@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Column } from '../StyledComponents';
 import { Game } from '../../Game/Game';
+import { GamePanel } from './GamePanel';
+import { Row } from '../StyledComponents';
 import { createGame } from '../../Game/createGame';
 import styled from 'styled-components';
 import { useUser } from '../Contexts/UserContext';
@@ -13,14 +14,16 @@ type Props = {
 export const GameComponent = ({ room }: Props) => {
     const user = useUser();
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const gameRef = useRef<Game | null>(null);
+    const [game, setGame] = useState<Game | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         console.log('useEffect');
         if (canvasRef.current) {
-            gameRef.current = createGame(room, user, canvasRef.current, () =>
-                setIsLoading(false)
+            setGame(
+                createGame(room, user, canvasRef.current, () =>
+                    setIsLoading(false)
+                )
             );
         }
 
@@ -30,19 +33,20 @@ export const GameComponent = ({ room }: Props) => {
     return (
         <StyledCont>
             <StyledCanvas ref={canvasRef} />
+            {game && <GamePanel game={game} />}
             {isLoading && <StyledLoading />}
         </StyledCont>
     );
 };
 
-const StyledCont = styled(Column)`
+const StyledCont = styled(Row)`
     height: 100vh;
     width: 100vw;
 `;
 
 const StyledCanvas = styled.canvas`
     height: 100vh;
-    width: 100vw;
+    flex: 1;
     position: absolute;
     top: 0;
     left: 0;

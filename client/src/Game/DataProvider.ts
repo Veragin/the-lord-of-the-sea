@@ -1,5 +1,11 @@
 export class DataProvider {
     public you: TPlayer = defaultPlayer;
+    public playerData: TGamePlayerData = {
+        gold: 0,
+        inventory: [],
+        maxInventory: 2,
+    };
+
     public players: TPlayer[] = [];
     public islands: TIsland[] = [];
     public wind = {
@@ -37,6 +43,10 @@ export class DataProvider {
         });
 
         this.wind = data.wind;
+    };
+
+    updatePlayerData = (data: TGamePlayerData) => {
+        this.playerData = data;
     };
 }
 

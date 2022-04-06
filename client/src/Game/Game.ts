@@ -1,20 +1,18 @@
 import { DataProvider } from './DataProvider';
-import { Paint } from './Paint';
+import { Paint } from './Paint/Paint';
 import { RESOLUTION_FACTOR } from './constants';
 import { User } from '../User/User';
 import { registerKeyEvents } from './registerKeyEvents';
 
 export class Game {
     private resizeObserver: ResizeObserver;
-    private data: DataProvider = new DataProvider();
+    public data: DataProvider = new DataProvider();
     private paint: Paint;
-
-    private subGameId: number;
 
     constructor(public user: User, private canvas: HTMLCanvasElement) {
         this.paint = new Paint(this.canvas, this.data);
 
-        this.subGameId = user.eventRegister.subscribe({ type: 'gameData', do: (d) => this.onGameData(d) });
+        user.eventRegister.registerGameEvents(this.data);
 
         this.resizeObserver = new ResizeObserver(() => this.onCanvasResize());
         this.resizeObserver.observe(this.canvas);
@@ -24,17 +22,11 @@ export class Game {
         this.data.init(room, gameLoadData, this.user.id());
         registerKeyEvents(this.user);
         await this.paint.init();
-        this.paint.render();
-    };
-
-    onGameData = (data: TGameData) => {
-        this.data.update(data);
-        this.paint.render();
+        this.paint.start();
     };
 
     onCanvasResize() {
         this.setCanvasSizes();
-        this.paint.render();
     }
 
     setCanvasSizes() {
@@ -48,6 +40,5 @@ export class Game {
 
     destructor() {
         this.resizeObserver.unobserve(this.canvas);
-        this.user.eventRegister.unsubscribe('gameData', this.subGameId);
     }
 }
