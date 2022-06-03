@@ -15,6 +15,7 @@ export class Player {
 
         sail: false,
         fire: false,
+        mine: false,
     };
 
     ship = new Ship();

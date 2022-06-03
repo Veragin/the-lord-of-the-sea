@@ -1,9 +1,9 @@
-import baseOffSrc from '../Assets/image/ships/baseOff.png';
-import baseOnSrc from '../Assets/image/ships/baseOn.png';
-import canoeSrc from '../Assets/image/ships/canoe.png';
-import galeraOffSrc from '../Assets/image/ships/galeraOff.png';
-import galeraOnSrc from '../Assets/image/ships/galeraOn.png';
-import shipSrc from '../Assets/image/ships/ship.png';
+import baseOffSrc from '../../Assets/image/ships/baseOff.png';
+import baseOnSrc from '../../Assets/image/ships/baseOn.png';
+import canoeSrc from '../../Assets/image/ships/canoe.png';
+import galeraOffSrc from '../../Assets/image/ships/galeraOff.png';
+import galeraOnSrc from '../../Assets/image/ships/galeraOn.png';
+import shipSrc from '../../Assets/image/ships/ship.png';
 
 const imageStore = {
     ship: new Image(),

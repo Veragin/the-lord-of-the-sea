@@ -17,4 +17,8 @@ export class Ship {
     attackSpeed: number = 1;
     attackCooldown: number = 0;
     attackDamage: number = 1;
+
+    mineSpeed: number = 1;
+    mineCooldown: number = 0;
+    mineIncome: number = 1;
 }

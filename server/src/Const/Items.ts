@@ -1,3 +1,4 @@
+import { generateId } from '../utils/utils';
 export const itemList = [
     {
         name: 'fish',
@@ -46,6 +47,17 @@ export const itemList = [
     },
 ] as const;
 
+export type TItemName = typeof itemNames[number];
+
 export const itemNames = itemList.map((i) => i.name);
 
-export type TItemName = typeof itemNames[number];
+export const createItem = (name: TItemName): TItem => {
+    const d = itemList.find((i) => i.name === name);
+    if (d === undefined) {
+        throw new Error(`Item with name ${name} not found`);
+    }
+    return {
+        id: generateId(),
+        ...d,
+    };
+};

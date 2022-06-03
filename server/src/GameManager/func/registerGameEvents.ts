@@ -30,4 +30,11 @@ export const registerGameEventsForPlayer = (player: Player) => {
     user.socket.on('gameFire', () => {
         player.control.fire = true;
     });
+
+    user.socket.on('gameMine', (on: boolean) => {
+        player.control.mine = on;
+        if (!on) {
+            player.ship.mineCooldown = 0;
+        }
+    });
 };

@@ -1,3 +1,5 @@
+import { action, makeObservable, observable } from 'mobx';
+
 export class DataProvider {
     public you: TPlayer = defaultPlayer;
     public playerData: TGamePlayerData = {
@@ -18,6 +20,13 @@ export class DataProvider {
         width: 0,
         height: 0,
     };
+
+    constructor() {
+        makeObservable(this, {
+            playerData: observable,
+            updatePlayerData: action,
+        });
+    }
 
     init = (room: TRoom, data: TGameLoad, userId: number) => {
         this.players = data.users.map((u) => ({

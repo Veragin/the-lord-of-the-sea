@@ -1,8 +1,10 @@
 import { collisionArcRRect, collisionArcRect } from './Geometry';
+import { createItem, itemList } from '../../Const/Items';
 
 import { Data } from './Data';
 import { Player } from '../Player/Player';
 import { Ship } from '../Player/Ship';
+import { generateId } from '../../utils/utils';
 
 const ENGINE_INTERVAL_MS = 40;
 
@@ -28,6 +30,7 @@ export class Engine {
     processPlayer = (player: Player) => {
         this.movePlayer(player);
         this.checkPlayerColision(player);
+        this.checkMine(player);
     };
 
     movePlayer = (player: Player) => {
@@ -111,6 +114,17 @@ export class Engine {
 
             this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength;
             this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength;
+        }
+    };
+
+    checkMine = (player: Player) => {
+        if (player.control.mine) {
+            if (player.ship.mineCooldown < player.ship.mineSpeed) {
+                player.ship.mineCooldown += 0.05;
+            } else {
+                player.inventory.add([createItem('stone')]);
+                player.ship.mineCooldown = 0;
+            }
         }
     };
 

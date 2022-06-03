@@ -2,6 +2,7 @@ import { colorsCss, spacingCss } from '../css';
 
 import { Game } from '../../Game/Game';
 import { Row } from '../StyledComponents';
+import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { useUser } from '../Contexts/UserContext';
 
@@ -9,16 +10,17 @@ type Props = {
     game: Game;
 };
 
-export const GamePanel = ({ game }: Props) => {
+export const GamePanel = observer(({ game }: Props) => {
     const user = useUser();
 
     return (
         <StyledCont>
             Name: {user.name}
             Gold: {game.data.playerData.gold}
+            Inventory: {game.data.playerData.inventory.join(', ')}
         </StyledCont>
     );
-};
+});
 
 const StyledCont = styled(Row)`
     height: 100vh;
