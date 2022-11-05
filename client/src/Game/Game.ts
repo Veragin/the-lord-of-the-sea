@@ -1,15 +1,15 @@
-import { DataProvider } from './DataProvider';
-import { Paint } from './Paint/Paint';
+import { DataProvider } from './DataProvider/DataProvider';
+import { PaintEngine } from './PaintEngine/PaintEngine';
 import { RESOLUTION_FACTOR } from './constants';
 import { User } from '../User/User';
 import { registerKeyEvents } from './registerKeyEvents';
 
 export class Game {
     public data: DataProvider = new DataProvider();
-    private paint: Paint;
+    private paintEngine: PaintEngine;
 
     constructor(public user: User, private canvas: HTMLCanvasElement) {
-        this.paint = new Paint(this.canvas, this.data);
+        this.paintEngine = new PaintEngine(this.canvas, this.data);
 
         user.eventRegister.registerGameEvents(this.data);
 
@@ -20,8 +20,8 @@ export class Game {
     init = async (room: TRoom, gameLoadData: TGameLoad) => {
         this.data.init(room, gameLoadData, this.user.id());
         registerKeyEvents(this.user);
-        await this.paint.init();
-        this.paint.start();
+        await this.paintEngine.init();
+        this.paintEngine.start();
     };
 
     onCanvasResize() {
@@ -39,5 +39,6 @@ export class Game {
 
     destructor() {
         document.removeEventListener('resize', this.onCanvasResize);
+        this.paintEngine.destructor();
     }
 }

@@ -1,6 +1,6 @@
 import { generateId, wihtoutId } from '../utils/utils';
 
-import { DataProvider } from '../Game/DataProvider';
+import { DataProvider } from '../Game/DataProvider/DataProvider';
 import { SocketClient } from './SocketClient';
 
 export class EventRegister {

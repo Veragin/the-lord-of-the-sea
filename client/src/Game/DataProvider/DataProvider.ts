@@ -1,4 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
+import { Map } from './Map';
 
 export class DataProvider {
     public you: TPlayer = defaultPlayer;
@@ -9,7 +10,7 @@ export class DataProvider {
     };
 
     public players: TPlayer[] = [];
-    public islands: TIsland[] = [];
+    public map = new Map();
     public wind = {
         angle: 0,
         strength: 0,
@@ -39,7 +40,7 @@ export class DataProvider {
 
         this.you = this.players.find((p) => p.id === userId) ?? defaultPlayer;
 
-        this.islands = data.islands;
+        this.map.init(data.map);
         this.wind = data.wind;
     };
 

@@ -4,12 +4,13 @@ import { Game } from '../Game';
 import { Player } from '../Player/Player';
 import { Room } from 'src/RoomManager/Room';
 import { Team } from '../Team';
+import { Map } from '../Map';
 
 export const createGame = (room: Room): Game => {
     const teams = createTeams(room);
 
-    const data = new Data(teams);
-    data.islands = createIslands();
+    const map = createMap();
+    const data = new Data(teams, map);
 
     const engine = new Engine(data);
     const game = new Game(room, data, engine);
@@ -32,6 +33,12 @@ const createTeams = (room: Room) => {
     });
 
     return teams;
+};
+
+const createMap = (): Map => {
+    const map = new Map();
+    map.islands = createIslands();
+    return map;
 };
 
 const createIslands = (): TIsland[] => {

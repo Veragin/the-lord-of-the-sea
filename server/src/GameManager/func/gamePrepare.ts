@@ -81,7 +81,11 @@ const createGameLoadData = (game: Game): TGameLoad => {
     return {
         data: game.createGameData(),
         users: game.room.users.map((u) => ({ id: u.id, name: u.name })),
-        islands: game.data.islands.map((i) => ({ ...i })),
+        map: {
+            islands: game.data.map.islands.map((i) => ({ ...i })),
+            width: game.data.map.width,
+            height: game.data.map.height,
+        },
         wind: { angle: game.data.wind.angle, strength: game.data.wind.strength },
     };
 };

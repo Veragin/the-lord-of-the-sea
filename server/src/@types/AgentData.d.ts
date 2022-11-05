@@ -39,7 +39,11 @@ declare type TGamePlayerData = {
 declare type TGameLoad = {
     data: TGameData;
     users: TName[];
-    islands: TIsland[];
+    map: {
+        islands: TIsland[];
+        width: number;
+        height: number;
+    };
     wind: {
         angle: number;
         strength: number;
