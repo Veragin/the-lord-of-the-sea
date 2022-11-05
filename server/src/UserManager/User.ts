@@ -2,7 +2,6 @@ import { Agent } from './Agent';
 import { Room } from '../RoomManager/Room';
 import { Socket } from 'socket.io';
 import { generateId } from '../utils/utils';
-import { v4 as uuid } from 'uuid';
 
 export class User {
     id: number = generateId();
@@ -14,8 +13,11 @@ export class User {
 
     room: Room | null = null;
 
-    constructor(public socket: Socket, public agent: Agent, name?: string) {
+    agent: Agent;
+
+    constructor(public socket: Socket, name?: string) {
         if (name) this.name = name;
+        this.agent = new Agent(socket);
     }
 
     setSocket = (socket: Socket) => {

@@ -1,7 +1,6 @@
-import { connectUserToHisGame, gamePrepare } from './GameManager/func/gamePrepare';
+import { connectUserToHisGame } from './GameManager/func/gamePrepare';
 
 import { GameManager } from './GameManager/GamerManager';
-import { Room } from './RoomManager/Room';
 import { RoomManager } from './RoomManager/RoomManager';
 import { User } from './UserManager/User';
 import { UserManager } from './UserManager/UserManager';
@@ -15,7 +14,7 @@ export class Service {
 
     registerEvents = (user: User) => {
         registerUserEvents(user, () => this.sendsRoomChange());
-        registerRoomEvents(user, this.roomManager, this.startGame);
+        registerRoomEvents(user, this.roomManager, this.gameManager.addNewGame);
     };
 
     sendsRoomChange = (user?: User) => {
@@ -30,12 +29,6 @@ export class Service {
         } else {
             usersNotInGame.forEach((u) => u.agent.sendRoomData(data));
         }
-    };
-
-    startGame = async (room: Room) => {
-        const game = await gamePrepare(room);
-        this.gameManager.addGame(game);
-        game.start();
     };
 
     reconnectUserToHisGame = (user: User) => {

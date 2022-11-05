@@ -31,4 +31,8 @@ export class Game {
         this.room.users.forEach((u) => u.agent.gameStart());
         this.engine.start(this.sendGameInfo);
     };
+
+    destructor = () => {
+        this.engine.destructor();
+    };
 }
