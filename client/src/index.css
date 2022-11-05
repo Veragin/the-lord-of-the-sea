@@ -10,6 +10,7 @@ body {
     background-image: url('Assets/backgroundSail.jpg');
     background-repeat: no-repeat;
     background-color: black;
+    overflow: hidden;
 }
 
 #root {

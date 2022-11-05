@@ -23,7 +23,7 @@ export const GamePanel = observer(({ game }: Props) => {
 });
 
 const StyledCont = styled(Row)`
-    height: 100vh;
+    height: calc(100vh - ${spacingCss(4)});
     width: 300px;
     border-left: 2px solid ${colorsCss.primary.dark};
     background-color: ${colorsCss.secondary.lighter};

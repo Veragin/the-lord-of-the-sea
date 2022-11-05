@@ -5,7 +5,6 @@ import { User } from '../User/User';
 import { registerKeyEvents } from './registerKeyEvents';
 
 export class Game {
-    private resizeObserver: ResizeObserver;
     public data: DataProvider = new DataProvider();
     private paint: Paint;
 
@@ -14,8 +13,8 @@ export class Game {
 
         user.eventRegister.registerGameEvents(this.data);
 
-        this.resizeObserver = new ResizeObserver(() => this.onCanvasResize());
-        this.resizeObserver.observe(this.canvas);
+        document.addEventListener('resize', this.onCanvasResize);
+        this.onCanvasResize();
     }
 
     init = async (room: TRoom, gameLoadData: TGameLoad) => {
@@ -31,7 +30,7 @@ export class Game {
 
     setCanvasSizes() {
         const width = RESOLUTION_FACTOR * this.canvas.offsetWidth;
-        const height = this.canvas.offsetHeight;
+        const height = RESOLUTION_FACTOR * this.canvas.offsetHeight;
         this.canvas.width = width;
         this.canvas.height = height;
         this.data.canvas.width = width;
@@ -39,6 +38,6 @@ export class Game {
     }
 
     destructor() {
-        this.resizeObserver.unobserve(this.canvas);
+        document.removeEventListener('resize', this.onCanvasResize);
     }
 }
