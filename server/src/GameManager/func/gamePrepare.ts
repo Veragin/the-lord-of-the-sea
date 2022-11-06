@@ -55,7 +55,7 @@ const userGameInit = (user: User, data: TRoom) => {
         const onInitDone = () => {
             user.state = 'gameInitDone';
             user.socket.off('gameInitDone', onInitDone);
-            console.log('gameInitDone off', user.socket.id);
+            console.log('gameInitDone off ', user.socket.id);
             resolve(true);
         };
         user.socket.on('gameInitDone', onInitDone);

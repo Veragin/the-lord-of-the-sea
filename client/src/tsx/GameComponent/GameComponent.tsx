@@ -18,12 +18,11 @@ export const GameComponent = ({ room }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        console.log('useEffect');
         if (canvasRef.current) {
             setGame(
-                createGame(room, user, canvasRef.current, () =>
-                    setIsLoading(false)
-                )
+                createGame(room, user, canvasRef.current, () => {
+                    setIsLoading(false);
+                })
             );
         }
 
@@ -32,9 +31,9 @@ export const GameComponent = ({ room }: Props) => {
 
     return (
         <StyledCont>
+            {isLoading && <StyledLoading />}
             <StyledCanvas ref={canvasRef} />
             {game && <GamePanel game={game} />}
-            {isLoading && <StyledLoading />}
         </StyledCont>
     );
 };
@@ -45,11 +44,8 @@ const StyledCont = styled(Row)`
 `;
 
 const StyledCanvas = styled.canvas`
-    height: 100vh;
-    flex: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
+    height: 100%;
+    width: 100%;
 `;
 
 const StyledLoading = styled.div`
