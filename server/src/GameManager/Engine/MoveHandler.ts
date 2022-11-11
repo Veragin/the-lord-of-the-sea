@@ -6,32 +6,32 @@ import { collisionArcRRect } from './Geometry';
 export class MoveHandler {
     constructor(public data: Data) {}
 
-    movePlayer = (player: Player) => {
+    movePlayer = (player: Player, deltaTime: number) => {
         const control = player.control;
         const ship = player.ship;
 
         if (control.left) {
-            ship.angle -= ship.rotate;
+            ship.angle -= ship.rotate * deltaTime;
         }
 
         if (control.right) {
-            ship.angle += ship.rotate;
+            ship.angle += ship.rotate * deltaTime;
         }
 
         const cosFront = Math.cos(ship.angle);
         const sinFront = Math.sin(ship.angle);
 
         if (control.forward) {
-            ship.speedX += cosFront * ship.speed;
-            ship.speedY += sinFront * ship.speed;
+            ship.speedX += cosFront * ship.acceleration * deltaTime;
+            ship.speedY += sinFront * ship.acceleration * deltaTime;
         }
 
         if (control.back) {
             const prevX = ship.speedX;
             const prevY = ship.speedY;
 
-            const newX = ship.speedX - cosFront * ship.speed;
-            const newY = ship.speedY - sinFront * ship.speed;
+            const newX = ship.speedX - cosFront * ship.acceleration * deltaTime;
+            const newY = ship.speedY - sinFront * ship.acceleration * deltaTime;
 
             if (Math.sign(prevX) !== Math.sign(newX)) {
                 ship.speedX = 0;
@@ -53,8 +53,8 @@ export class MoveHandler {
 
         if (control.sail) {
             // can be higher than ship.maxSpeed
-            ship.speedX += this.data.wind.speedX;
-            ship.speedY += this.data.wind.speedY;
+            ship.speedX += this.data.wind.speedX * deltaTime;
+            ship.speedY += this.data.wind.speedY * deltaTime;
         }
 
         ship.x += ship.speedX;

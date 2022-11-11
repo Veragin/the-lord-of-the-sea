@@ -9,7 +9,7 @@
         "incremental": true,
 
         "outDir": "./dist",
-        "baseUrl": "./",
+        "baseUrl": "src",
 
         "strict": true,
         "declaration": true,
@@ -23,5 +23,5 @@
         "skipLibCheck": true,
         "allowJs": true
     },
-    "include": ["src/index.ts", "src/**/*.d.ts"]
+    "include": ["src"]
 }

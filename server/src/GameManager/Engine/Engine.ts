@@ -3,11 +3,11 @@ import { createItem } from '../../Const/Items';
 import { Data } from './Data';
 import { Player } from '../Player/Player';
 import { MoveHandler } from './MoveHandler';
-
-const ENGINE_INTERVAL_MS = 40;
+import { ENGINE_INTERVAL_MS } from './Const';
 
 export class Engine {
     interval: NodeJS.Timer | null = null;
+    lastUpdateMs: number = 0;
     sendData: () => void = () => {};
 
     moveHandler: MoveHandler;
@@ -18,30 +18,35 @@ export class Engine {
 
     start = (sendData: () => void) => {
         this.sendData = sendData;
+        this.lastUpdateMs = Date.now();
         this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
     };
 
     run = () => {
+        const now = Date.now();
+        const deltaTime = (now - this.lastUpdateMs) / 1_000;
+        this.lastUpdateMs = now;
+
         this.data.players.forEach((p) => {
-            this.processPlayer(p);
+            this.processPlayer(p, deltaTime);
         });
-        this.processWind();
+        this.processWind(deltaTime);
         this.sendData();
     };
 
-    processPlayer = (player: Player) => {
-        this.moveHandler.movePlayer(player);
+    processPlayer = (player: Player, deltaTime: number) => {
+        this.moveHandler.movePlayer(player, deltaTime);
         this.moveHandler.checkPlayerColision(player);
         this.checkMine(player);
     };
 
-    processWind = () => {
-        if (Math.random() < 0.005) {
+    processWind = (deltaTime: number) => {
+        if (Math.random() < 0.05) {
             this.data.wind.angle += Math.random() - 0.5;
             this.data.wind.strength = 0.5 + Math.random();
 
-            this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength;
-            this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength;
+            this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength * deltaTime;
+            this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength * deltaTime;
         }
     };
 

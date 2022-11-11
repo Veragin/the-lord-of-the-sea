@@ -2,7 +2,7 @@ import { registerGameEvents, registerGameEventsForPlayer } from './registerGameE
 
 import { Game } from '../Game';
 import { Room } from '../../RoomManager/Room';
-import { User } from 'src/UserManager/User';
+import { User } from 'UserManager/User';
 import { createGame } from './createGame';
 
 /** When the game is starting */

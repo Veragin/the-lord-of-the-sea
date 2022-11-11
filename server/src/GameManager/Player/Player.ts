@@ -3,7 +3,7 @@ import { Sailor } from './Sailor';
 import { Ship } from './Ship';
 import { TItemName } from '../../Const/Items';
 import { Team } from '../Team';
-import { User } from 'src/UserManager/User';
+import { User } from 'UserManager/User';
 
 export class Player {
     control = {
