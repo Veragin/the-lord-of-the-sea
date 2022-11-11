@@ -5,8 +5,19 @@ import { TItemName } from '../../Const/Items';
 import { Team } from '../Team';
 import { User } from 'UserManager/User';
 
+type TPlayerControl = {
+    left: boolean;
+    right: boolean;
+    forward: boolean;
+    back: boolean;
+
+    sail: boolean;
+    fire: TBulletFire;
+    mine: boolean;
+};
+
 export class Player {
-    control = {
+    control: TPlayerControl = {
         // movement
         left: false,
         right: false,
@@ -14,7 +25,7 @@ export class Player {
         back: false,
 
         sail: false,
-        fire: false,
+        fire: null,
         mine: false,
     };
 

@@ -1,4 +1,5 @@
 import { User } from '../User/User';
+import { throttle } from '../utils/throttle';
 
 export const registerKeyEvents = (user: User) => {
     document.addEventListener('keydown', (e) => {
@@ -20,9 +21,6 @@ export const registerKeyEvents = (user: User) => {
             case ' ':
                 user.gameAgent.doSail(true);
                 break;
-            case 'r':
-                user.gameAgent.doFire(true);
-                break;
         }
     });
 
@@ -43,9 +41,38 @@ export const registerKeyEvents = (user: User) => {
             case ' ':
                 user.gameAgent.doSail(false);
                 break;
-            case 'r':
-                user.gameAgent.doFire(false);
-                break;
+        }
+    });
+
+    let isMouseDown = false;
+    document.addEventListener('mousedown', (e) => {
+        console.log(e.button);
+        if (e.button === 0) {
+            isMouseDown = true;
+            user.gameAgent.doFire({
+                x: e.clientX,
+                y: e.clientY,
+            });
+        }
+    });
+
+    document.addEventListener(
+        'mousemove',
+        throttle((e) => {
+            if (isMouseDown) {
+                user.gameAgent.doFire({
+                    x: e.clientX,
+                    y: e.clientY,
+                });
+            }
+        })
+    );
+
+    document.addEventListener('mouseup', (e) => {
+        console.log(e.button);
+        if (e.button === 0) {
+            isMouseDown = false;
+            user.gameAgent.doFire(null);
         }
     });
 };

@@ -4,6 +4,7 @@ import { Data } from './Data';
 import { Player } from '../Player/Player';
 import { MoveHandler } from './MoveHandler';
 import { ENGINE_INTERVAL_MS } from './Const';
+import { BulletHandler } from './BulletHandler';
 
 export class Engine {
     interval: NodeJS.Timer | null = null;
@@ -11,9 +12,11 @@ export class Engine {
     sendData: () => void = () => {};
 
     moveHandler: MoveHandler;
+    bulletHandler: BulletHandler;
 
     constructor(private data: Data) {
         this.moveHandler = new MoveHandler(data);
+        this.bulletHandler = new BulletHandler(data);
     }
 
     start = (sendData: () => void) => {
@@ -27,17 +30,10 @@ export class Engine {
         const deltaTime = (now - this.lastUpdateMs) / 1_000;
         this.lastUpdateMs = now;
 
-        this.data.players.forEach((p) => {
-            this.processPlayer(p, deltaTime);
-        });
+        this.moveHandler.movePlayers(deltaTime);
+        this.bulletHandler.process(deltaTime);
         this.processWind(deltaTime);
         this.sendData();
-    };
-
-    processPlayer = (player: Player, deltaTime: number) => {
-        this.moveHandler.movePlayer(player, deltaTime);
-        this.moveHandler.checkPlayerColision(player);
-        this.checkMine(player);
     };
 
     processWind = (deltaTime: number) => {

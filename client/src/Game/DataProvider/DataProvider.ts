@@ -10,6 +10,7 @@ export class DataProvider {
     };
 
     public players: TPlayer[] = [];
+    public bullets: TPoint[] = [];
     public map = new Map();
     public wind = {
         angle: 0,
@@ -53,6 +54,7 @@ export class DataProvider {
         });
 
         this.wind = data.wind;
+        this.bullets = data.bullets;
     };
 
     updatePlayerData = (data: TGamePlayerData) => {

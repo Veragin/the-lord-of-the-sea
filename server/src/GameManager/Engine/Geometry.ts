@@ -36,3 +36,26 @@ export const collisionArcRect = (arc: TArc, rect: TRect): boolean => {
 export const collisionArcRRect = (arc: TArc, rect: TRRect): boolean => {
     return collisionArcRect({ ...rotatePoint(-rect.angle, rect, arc), r: arc.r }, rect);
 };
+
+export const collisionArcs = (arcA: TArc, arcB: TArc): boolean => {
+    return Math.pow(arcA.x - arcB.x, 2) + Math.pow(arcA.y - arcB.y, 2) < Math.pow(arcA.r + arcB.r, 2);
+};
+
+export const collisionPointRect = (point: TPoint, rect: TRect): boolean => {
+    return (
+        point.x < rect.x + rect.w / 2 &&
+        point.x > rect.x - rect.w / 2 &&
+        point.y < rect.y + rect.h / 2 &&
+        point.y > rect.y - rect.h / 2
+    );
+};
+
+export const collisionPointRRect = (point: TPoint, rect: TRRect): boolean => {
+    return collisionPointRect(rotatePoint(-rect.angle, rect, point), rect);
+};
+
+export const collisionPointArc = (point: TPoint, arc: TArc): boolean => {
+    return Math.pow(arc.x - point.x, 2) + Math.pow(arc.y - point.y, 2) < Math.pow(arc.r, 2);
+};
+
+export const getNorm = (point: TPoint) => Math.sqrt(point.x * point.x + point.y * point.y);

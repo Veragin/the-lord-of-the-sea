@@ -27,8 +27,8 @@ export const registerGameEventsForPlayer = (player: Player) => {
         player.control.sail = on;
     });
 
-    user.socket.on('gameFire', () => {
-        player.control.fire = true;
+    user.socket.on('gameFire', (fire: TBulletFire) => {
+        player.control.fire = fire;
     });
 
     user.socket.on('gameMine', (on: boolean) => {

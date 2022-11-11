@@ -28,6 +28,7 @@ declare type TGameData = {
         angle: number;
         strength: number;
     };
+    bullets: TPoint[];
 };
 
 declare type TGamePlayerData = {
@@ -49,3 +50,8 @@ declare type TGameLoad = {
         strength: number;
     };
 };
+
+declare type TBulletFire = {
+    x: number;
+    y: number;
+} | null;

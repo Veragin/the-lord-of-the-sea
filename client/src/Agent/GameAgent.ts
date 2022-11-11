@@ -23,8 +23,8 @@ export class GameAgent {
         this.socketClient.socket.emit('gameSail', on);
     };
 
-    doFire = (on: boolean) => {
-        this.socketClient.socket.emit('gameFire', on);
+    doFire = (fire: TBulletFire) => {
+        this.socketClient.socket.emit('gameFire', fire);
     };
 
     initDone = () => {

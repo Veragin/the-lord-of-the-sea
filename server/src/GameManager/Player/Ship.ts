@@ -8,15 +8,18 @@ export class Ship {
     speedX: number = 0;
     speedY: number = 0;
 
-    weight: number = 1;
-
     rotate: TAngle = 0.75;
-    acceleration: number = 2.1;
-    maxSpeed: number = 4;
+    acceleration: number = 25;
+    maxSpeed: number = 60;
 
-    attackSpeed: number = 1;
+    health: number = 10;
+
+    attackSpeed: number = 100;
     attackCooldown: number = 0;
-    attackDamage: number = 1;
+
+    bulletDamage: number = 1;
+    bulletSpeed: number = 100;
+    bulletLiveTime: number = 5;
 
     mineSpeed: number = 1;
     mineCooldown: number = 0;

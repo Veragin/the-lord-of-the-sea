@@ -23,6 +23,7 @@ export class Draw {
 
         this.mapPaint.render();
         this.playerPaint.render();
+        this.renderBullets();
 
         this.ctx.restore();
 
@@ -45,5 +46,14 @@ export class Draw {
         this.ctx.fill();
 
         this.ctx.restore();
+    };
+
+    private renderBullets = () => {
+        this.ctx.fillStyle = 'black';
+        for (let bullet of this.data.bullets) {
+            this.ctx.beginPath();
+            this.ctx.arc(bullet.x, bullet.y, 5, 0, 2 * Math.PI);
+            this.ctx.fill();
+        }
     };
 }

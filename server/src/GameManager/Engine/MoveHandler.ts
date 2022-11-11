@@ -6,7 +6,14 @@ import { collisionArcRRect } from './Geometry';
 export class MoveHandler {
     constructor(public data: Data) {}
 
-    movePlayer = (player: Player, deltaTime: number) => {
+    movePlayers = (deltaTime: number) => {
+        this.data.players.forEach((p) => {
+            this.movePlayer(p, deltaTime);
+            this.checkPlayerColision(p);
+        });
+    };
+
+    private movePlayer = (player: Player, deltaTime: number) => {
         const control = player.control;
         const ship = player.ship;
 
@@ -57,11 +64,11 @@ export class MoveHandler {
             ship.speedY += this.data.wind.speedY * deltaTime;
         }
 
-        ship.x += ship.speedX;
-        ship.y += ship.speedY;
+        ship.x += ship.speedX * deltaTime;
+        ship.y += ship.speedY * deltaTime;
     };
 
-    checkMaxSpeed = (ship: Ship) => {
+    private checkMaxSpeed = (ship: Ship) => {
         const currSpeed = Math.abs(ship.speedX) + Math.abs(ship.speedY);
         if (currSpeed > ship.maxSpeed) {
             const correction = ship.maxSpeed / currSpeed;
@@ -70,7 +77,7 @@ export class MoveHandler {
         }
     };
 
-    checkPlayerColision = (player: Player) => {
+    private checkPlayerColision = (player: Player) => {
         this.checkIslandColision(player);
         this.checkBoundery(player);
     };

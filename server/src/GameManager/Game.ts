@@ -25,6 +25,7 @@ export class Game {
             angle: this.data.wind.angle,
             strength: this.data.wind.strength,
         },
+        bullets: this.data.bullets.map((b) => ({ x: b.x, y: b.y })),
     });
 
     start = () => {

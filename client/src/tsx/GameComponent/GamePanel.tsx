@@ -24,8 +24,8 @@ export const GamePanel = observer(({ game }: Props) => {
 
 const StyledCont = styled(Row)`
     position: absolute;
-    height: calc(100vh - ${spacingCss(4)});
-    width: 300px;
+    height: 50px;
+    width: 100%;
     border-left: 2px solid ${colorsCss.primary.dark};
     background-color: ${colorsCss.secondary.lighter};
     box-sizing: border-box;
