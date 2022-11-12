@@ -58,4 +58,11 @@ export const collisionPointArc = (point: TPoint, arc: TArc): boolean => {
     return Math.pow(arc.x - point.x, 2) + Math.pow(arc.y - point.y, 2) < Math.pow(arc.r, 2);
 };
 
+export const normalize = (point: TPoint) => {
+    const norm = getNorm(point);
+    return {
+        x: point.x / norm,
+        y: point.y / norm,
+    };
+};
 export const getNorm = (point: TPoint) => Math.sqrt(point.x * point.x + point.y * point.y);

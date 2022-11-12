@@ -32,17 +32,17 @@ export class Engine {
 
         this.moveHandler.movePlayers(deltaTime);
         this.bulletHandler.process(deltaTime);
-        this.processWind(deltaTime);
+        this.processWind();
         this.sendData();
     };
 
-    processWind = (deltaTime: number) => {
-        if (Math.random() < 0.05) {
+    processWind = () => {
+        if (Math.random() < 0.005) {
             this.data.wind.angle += Math.random() - 0.5;
-            this.data.wind.strength = 0.5 + Math.random();
+            this.data.wind.strength = (1 + Math.random()) * 20;
 
-            this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength * deltaTime;
-            this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength * deltaTime;
+            this.data.wind.speedX = Math.cos(this.data.wind.angle) * this.data.wind.strength;
+            this.data.wind.speedY = Math.sin(this.data.wind.angle) * this.data.wind.strength;
         }
     };
 

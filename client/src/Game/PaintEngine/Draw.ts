@@ -42,7 +42,7 @@ export class Draw {
 
         this.ctx.fillStyle = 'red';
         this.ctx.beginPath();
-        this.ctx.arc(30 * this.data.wind.strength, 0, 5, 0, 2 * Math.PI);
+        this.ctx.arc(1.5 * this.data.wind.strength, 0, 5, 0, 2 * Math.PI);
         this.ctx.fill();
 
         this.ctx.restore();

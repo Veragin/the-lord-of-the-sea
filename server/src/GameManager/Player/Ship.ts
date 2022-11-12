@@ -9,8 +9,8 @@ export class Ship {
     speedY: number = 0;
 
     rotate: TAngle = 0.75;
-    acceleration: number = 25;
-    maxSpeed: number = 60;
+    acceleration: number = 30;
+    maxSpeed: number = 80;
 
     health: number = 10;
 
