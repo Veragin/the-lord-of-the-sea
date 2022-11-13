@@ -66,3 +66,13 @@ export const normalize = (point: TPoint) => {
     };
 };
 export const getNorm = (point: TPoint) => Math.sqrt(point.x * point.x + point.y * point.y);
+
+// r=d−2(d⋅n)n
+export const mirrorVector = (d: TPoint, osa: TPoint): TPoint => {
+    const n = normalize(osa);
+    const product = d.x * n.x + d.y * n.y;
+    return {
+        x: d.x - 2 * product * n.x,
+        y: d.y - 2 * product * n.y,
+    };
+};

@@ -2,7 +2,7 @@ import { DeltaTime } from '../../utils/time';
 import { Player } from '../Player/Player';
 import { Ship } from '../Player/Ship';
 import { Data } from './Data';
-import { collisionArcRRect } from './Geometry';
+import { collisionArcRRect, mirrorVector } from './Geometry';
 
 export class MoveHandler {
     constructor(public data: Data) {}
@@ -86,8 +86,13 @@ export class MoveHandler {
     private checkIslandColision = (player: Player) => {
         for (let island of this.data.map.islands) {
             if (collisionArcRRect(island, player.ship)) {
-                player.ship.x = 0;
-                player.ship.y = 0;
+                const osa = {
+                    x: player.ship.x - island.x,
+                    y: player.ship.y - island.y,
+                };
+                const newSpeed = mirrorVector({ x: player.ship.speedX, y: player.ship.speedY }, osa);
+                player.ship.speedX = newSpeed.x;
+                player.ship.speedY = newSpeed.y;
                 return;
             }
         }
