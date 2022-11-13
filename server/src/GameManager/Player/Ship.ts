@@ -17,7 +17,7 @@ export class Ship {
     maxHealth: number = 10;
     health: number = 10;
 
-    attackSpeed: DeltaTime = DeltaTime.fromS(2);
+    attackSpeed: DeltaTime = DeltaTime.fromS(1.5);
     attackCooldown: Time = Time.fromMs(0);
 
     bulletDamage: number = 1;

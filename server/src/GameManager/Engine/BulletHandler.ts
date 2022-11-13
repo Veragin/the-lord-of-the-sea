@@ -30,7 +30,7 @@ export class BulletHandler {
     private shipFire = (player: Player, now: Time) => {
         const ship = player.ship;
 
-        if (ship.attackCooldown > now) {
+        if (ship.attackCooldown.isAfter(now)) {
             return;
         }
 
@@ -56,8 +56,8 @@ export class BulletHandler {
     };
 
     private bulletMove = (bullet: TBullet, deltaTime: DeltaTime) => {
-        bullet.x += (bullet.speedX + this.data.wind.speedX) * deltaTime.ms;
-        bullet.y += (bullet.speedY + this.data.wind.speedY) * deltaTime.ms;
+        bullet.x += (bullet.speedX + this.data.wind.speedX) * deltaTime.s;
+        bullet.y += (bullet.speedY + this.data.wind.speedY) * deltaTime.s;
     };
 
     private checkBulletCollision = (bullet: TBullet) => {

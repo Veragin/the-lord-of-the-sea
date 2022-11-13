@@ -19,27 +19,27 @@ export class MoveHandler {
         const ship = player.ship;
 
         if (control.left) {
-            ship.angle -= ship.rotate * deltaTime.ms;
+            ship.angle -= ship.rotate * deltaTime.s;
         }
 
         if (control.right) {
-            ship.angle += ship.rotate * deltaTime.ms;
+            ship.angle += ship.rotate * deltaTime.s;
         }
 
         const cosFront = Math.cos(ship.angle);
         const sinFront = Math.sin(ship.angle);
 
         if (control.forward) {
-            ship.speedX += cosFront * ship.acceleration * deltaTime.ms;
-            ship.speedY += sinFront * ship.acceleration * deltaTime.ms;
+            ship.speedX += cosFront * ship.acceleration * deltaTime.s;
+            ship.speedY += sinFront * ship.acceleration * deltaTime.s;
         }
 
         if (control.back) {
             const prevX = ship.speedX;
             const prevY = ship.speedY;
 
-            const newX = ship.speedX - cosFront * ship.acceleration * deltaTime.ms;
-            const newY = ship.speedY - sinFront * ship.acceleration * deltaTime.ms;
+            const newX = ship.speedX - cosFront * ship.acceleration * deltaTime.s;
+            const newY = ship.speedY - sinFront * ship.acceleration * deltaTime.s;
 
             if (Math.sign(prevX) !== Math.sign(newX)) {
                 ship.speedX = 0;
@@ -61,12 +61,12 @@ export class MoveHandler {
 
         if (control.sail) {
             // can be higher than ship.maxSpeed
-            ship.speedX += this.data.wind.speedX * deltaTime.ms;
-            ship.speedY += this.data.wind.speedY * deltaTime.ms;
+            ship.speedX += this.data.wind.speedX * deltaTime.s;
+            ship.speedY += this.data.wind.speedY * deltaTime.s;
         }
 
-        ship.x += ship.speedX * deltaTime.ms;
-        ship.y += ship.speedY * deltaTime.ms;
+        ship.x += ship.speedX * deltaTime.s;
+        ship.y += ship.speedY * deltaTime.s;
     };
 
     private checkMaxSpeed = (ship: Ship) => {
