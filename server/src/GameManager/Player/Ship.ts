@@ -1,3 +1,5 @@
+import { DeltaTime, Time } from '../../utils/time';
+
 export class Ship {
     x: number = 0;
     y: number = 0;
@@ -12,14 +14,15 @@ export class Ship {
     acceleration: number = 30;
     maxSpeed: number = 80;
 
+    maxHealth: number = 10;
     health: number = 10;
 
-    attackSpeed: number = 100;
-    attackCooldown: number = 0;
+    attackSpeed: DeltaTime = DeltaTime.fromS(2);
+    attackCooldown: Time = Time.fromMs(0);
 
     bulletDamage: number = 1;
     bulletSpeed: number = 100;
-    bulletLiveTime: number = 5;
+    bulletLiveTime: DeltaTime = DeltaTime.fromS(5);
 
     mineSpeed: number = 1;
     mineCooldown: number = 0;

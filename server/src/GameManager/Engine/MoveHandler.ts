@@ -1,3 +1,4 @@
+import { DeltaTime } from '../../utils/time';
 import { Player } from '../Player/Player';
 import { Ship } from '../Player/Ship';
 import { Data } from './Data';
@@ -6,39 +7,39 @@ import { collisionArcRRect } from './Geometry';
 export class MoveHandler {
     constructor(public data: Data) {}
 
-    movePlayers = (deltaTime: number) => {
+    movePlayers = (deltaTime: DeltaTime) => {
         this.data.players.forEach((p) => {
             this.movePlayer(p, deltaTime);
             this.checkPlayerColision(p);
         });
     };
 
-    private movePlayer = (player: Player, deltaTime: number) => {
+    private movePlayer = (player: Player, deltaTime: DeltaTime) => {
         const control = player.control;
         const ship = player.ship;
 
         if (control.left) {
-            ship.angle -= ship.rotate * deltaTime;
+            ship.angle -= ship.rotate * deltaTime.ms;
         }
 
         if (control.right) {
-            ship.angle += ship.rotate * deltaTime;
+            ship.angle += ship.rotate * deltaTime.ms;
         }
 
         const cosFront = Math.cos(ship.angle);
         const sinFront = Math.sin(ship.angle);
 
         if (control.forward) {
-            ship.speedX += cosFront * ship.acceleration * deltaTime;
-            ship.speedY += sinFront * ship.acceleration * deltaTime;
+            ship.speedX += cosFront * ship.acceleration * deltaTime.ms;
+            ship.speedY += sinFront * ship.acceleration * deltaTime.ms;
         }
 
         if (control.back) {
             const prevX = ship.speedX;
             const prevY = ship.speedY;
 
-            const newX = ship.speedX - cosFront * ship.acceleration * deltaTime;
-            const newY = ship.speedY - sinFront * ship.acceleration * deltaTime;
+            const newX = ship.speedX - cosFront * ship.acceleration * deltaTime.ms;
+            const newY = ship.speedY - sinFront * ship.acceleration * deltaTime.ms;
 
             if (Math.sign(prevX) !== Math.sign(newX)) {
                 ship.speedX = 0;
@@ -60,12 +61,12 @@ export class MoveHandler {
 
         if (control.sail) {
             // can be higher than ship.maxSpeed
-            ship.speedX += this.data.wind.speedX * deltaTime;
-            ship.speedY += this.data.wind.speedY * deltaTime;
+            ship.speedX += this.data.wind.speedX * deltaTime.ms;
+            ship.speedY += this.data.wind.speedY * deltaTime.ms;
         }
 
-        ship.x += ship.speedX * deltaTime;
-        ship.y += ship.speedY * deltaTime;
+        ship.x += ship.speedX * deltaTime.ms;
+        ship.y += ship.speedY * deltaTime.ms;
     };
 
     private checkMaxSpeed = (ship: Ship) => {

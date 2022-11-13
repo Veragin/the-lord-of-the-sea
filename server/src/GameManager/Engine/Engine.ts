@@ -5,10 +5,11 @@ import { Player } from '../Player/Player';
 import { MoveHandler } from './MoveHandler';
 import { ENGINE_INTERVAL_MS } from './Const';
 import { BulletHandler } from './BulletHandler';
+import { DeltaTime, Time } from '../../utils/time';
 
 export class Engine {
     interval: NodeJS.Timer | null = null;
-    lastUpdateMs: number = 0;
+    lastTime: Time = Time.fromMs(0);
     sendData: () => void = () => {};
 
     moveHandler: MoveHandler;
@@ -21,17 +22,17 @@ export class Engine {
 
     start = (sendData: () => void) => {
         this.sendData = sendData;
-        this.lastUpdateMs = Date.now();
+        this.lastTime = Time.now();
         this.interval = setInterval(this.run, ENGINE_INTERVAL_MS);
     };
 
     run = () => {
-        const now = Date.now();
-        const deltaTime = (now - this.lastUpdateMs) / 1_000;
-        this.lastUpdateMs = now;
+        const now = Time.now();
+        const deltaTime = DeltaTime.distance(now, this.lastTime);
+        this.lastTime = now;
 
         this.moveHandler.movePlayers(deltaTime);
-        this.bulletHandler.process(deltaTime);
+        this.bulletHandler.process(now, deltaTime);
         this.processWind();
         this.sendData();
     };
