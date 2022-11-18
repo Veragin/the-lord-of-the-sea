@@ -34,6 +34,7 @@ export class Engine {
         this.moveHandler.movePlayers(deltaTime);
         this.bulletHandler.process(now, deltaTime);
         this.processWind();
+        this.processDeath();
         this.sendData();
     };
 
@@ -47,15 +48,17 @@ export class Engine {
         }
     };
 
-    checkMine = (player: Player) => {
-        if (player.control.mine) {
-            if (player.ship.mineCooldown < player.ship.mineSpeed) {
-                player.ship.mineCooldown += 0.05;
-            } else {
-                player.inventory.add([createItem('stone')]);
-                player.ship.mineCooldown = 0;
+    processDeath = () => {
+        this.data.players.forEach((player) => {
+            if (player.ship.health < 0) {
+                player.ship.health = player.ship.maxHealth;
+                player.ship.x = 0;
+                player.ship.y = 0;
+                player.ship.attackCooldown = Time.fromMs(0);
+                player.ship.speedX = 0;
+                player.ship.speedY = 0;
             }
-        }
+        });
     };
 
     destructor = () => {

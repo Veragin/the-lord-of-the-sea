@@ -1,1 +1,4 @@
 export const ENGINE_INTERVAL_MS = 30;
+
+export const SHIP_COLLISION_SPEED_FACTOR = 0.5;
+export const SHIP_COLLISION_DAMAGE = 1;
