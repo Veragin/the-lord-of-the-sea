@@ -62,7 +62,14 @@ export class DataProvider {
     };
 }
 
-const defaultPlayerData = { x: 0, y: 0, angle: 0, sail: false };
+const defaultPlayerData = {
+    x: 0,
+    y: 0,
+    angle: 0,
+    sail: false,
+    health: 10,
+    maxHealth: 10,
+};
 const defaultPlayer: TPlayer = {
     id: 0,
     name: '',

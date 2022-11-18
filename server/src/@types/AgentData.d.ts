@@ -23,6 +23,8 @@ declare type TGameData = {
         y: number;
         angle: TAngle;
         sail: boolean;
+        health: number;
+        maxHealth: number;
     }[];
     wind: {
         angle: number;

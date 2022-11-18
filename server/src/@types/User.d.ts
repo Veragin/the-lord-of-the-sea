@@ -11,6 +11,8 @@ declare type TPlayer = {
         y: number;
         angle: number;
         sail: boolean;
+        health: p.ship.health;
+        maxHealth: p.ship.maxHealth;
     };
     const: {
         w: number;

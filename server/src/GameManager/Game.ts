@@ -20,6 +20,8 @@ export class Game {
             y: p.ship.y,
             angle: p.ship.angle,
             sail: p.control.sail,
+            health: p.ship.health,
+            maxHealth: p.ship.maxHealth,
         })),
         wind: {
             angle: this.data.wind.angle,
